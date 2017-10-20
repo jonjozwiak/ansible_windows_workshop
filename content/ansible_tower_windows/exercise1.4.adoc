@@ -1,0 +1,69 @@
+
+:icons: font
+:imagesdir: images
+
+:yum_url: http://docs.ansible.com/ansible/yum_module.html
+:service_url: http://docs.ansible.com/ansible/service_module.html
+
+
+= Exercise 1.4 - Running the apache-basic-playbook
+
+Congratulations!  You just wrote a playbook that incorporates some key Ansible concepts that you use in
+most if not all of your future playbooks.  Before you get too excited though, we should probably make sure
+it actually runs.
+
+So, lets do that now.
+
+== Section 1 - Running your new iis playbook
+
+=== Step 1:
+Use putty to login to your s#tower host as student#
+
+Pull the latest playbooks from source code and then execute the playbook.  Be certain to use your student number below.
+
+[source,bash]
+----
+cd ~/student#-playbooks
+git pull
+# Or if you don't have the directory:
+# git clone https://gitlab.ansibleworkshop.com/student#/student#-playbooks.git
+cd iis_basic_playbook
+----
+
+[NOTE]
+Since you already have an inventory file, /etc/ansible/hosts, we will re-use it.
+
+=== Step 2:
+Run your playbook
+
+[source,bash]
+----
+ansible-playbook site.yml
+----
+
+== Section 2: Review
+
+If successful, you should see standard output that looks very similar to the following.  If not, just let us
+know.  We'll help get things fixed up.
+
+image::1.4-putty-playbook_site.yml.png[title="site.yml stdout",width=1000]
+
+Your output may vary from above based on whether you removed IIS previously or not.
+
+Once completed, on your workstation you can open firefox and test a connection to one of your servers (s#win1 or s#win2):
+
+* http://s#win1.ansibleworkshop.com:8080/
+* http://s#win1.ansibleworkshop.com:8081/
+
+
+image::1.4-firefox-iis_site.png[title="IIS Templated Site",width=1000]
+
+
+[NOTE]
+DNS is only available in your workstation environment, so you will not be able to connect remotely from your own machine
+
+
+
+
+
+

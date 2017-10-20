@@ -1,0 +1,23 @@
+---
+# defaults file for manage-ec2-instances
+
+# Base VPC / Region Detail
+keypair: "your-keypair"
+vpc_id: "your-vpc-id"
+vpc_subnet_id: "your-vpc-subnet-id"
+region: "us-east-1"
+
+# Key file to retrieve windows password 
+ec2_key_file: "/home/myuser/.ssh/mykey.pem"
+
+# Instance Sizes
+tower_instance_type: "t2.medium"    # Medium = 2 vCPU / 4GB
+gitlab_instance_type: "t2.medium"   # Might be able to use small... 
+windc_instance_type: "t2.medium"    # t2.micro fails 
+windows_workstation_instance_type: "t2.medium"   # t2.small was slowwwwww...
+windows_instance_type: "t2.small"   # Small = 1 vCPU / 2GB 
+
+# Ideally update to auto-pull the latest
+rhel_ami: ami-c998b6b2              # Rhel 7.4 
+windows_ami: ami-27a58d5c           # Windows 2016 Base
+

@@ -1,0 +1,44 @@
+
+:icons: font
+:imagesdir: images
+
+
+
+= Exercise 3.2 - Using Ansible for Self Service non-admin users
+
+Examples where user can restart services, servers, etc without being administrators... 
+
+
+
+== Header 1
+
+TODO
+
+=== Step 1:
+
+TODO
+
+
+
+=== Step 2:
+
+TODO
+
+
+== Header 2
+
+TODO
+
+
+=== Step 1:
+
+TODO
+
+
+=== End Result
+
+TODO
+
+
+
+

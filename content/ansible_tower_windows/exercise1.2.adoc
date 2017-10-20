@@ -1,0 +1,108 @@
+
+:icons: font
+:imagesdir: images
+
+:win_feature_url: http://docs.ansible.com/ansible/latest/win_feature_module.html
+:win_service_url: http://docs.ansible.com/ansible/latest/win_service_module.html
+
+
+
+= Exercise 1.2 - Running Your Playbook
+
+
+== Section 1: Running the Playbook
+
+
+We are now going to run you're brand spankin' new playbook on your two windows nodes.  To do this,
+ you are going to use the `ansible-playbook` command.
+
+=== Step 1:
+
+Use putty to login to your s#tower host as student#
+
+Clone the playbooks from source code and then execute the playbook.  Be certain to use your student number below.  Also, due to our self-signed cert we need to first disable ssl verification
+
+[source,bash]
+----
+git config --global http.sslVerify false
+
+# Setup to cache git credentials in memory for a day
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=86400'
+
+git clone https://gitlab.ansibleworkshop.com/student#/student#-playbooks.git
+	# Username is student# and your associated password.
+cd student#-playbooks/iis_basic
+ansible-playbook install_iis.yml
+----
+
+[NOTE]
+If you have already cloned the repository, you can run a 'git pull' within the directory to get the latest version.
+
+However, before you go ahead and run that command, lets take a few moments to understand some options.
+
+- *-i* This option could be used to specify the inventory file you wish to use.  We are using the default (/etc/ansible/hosts)
+- *-v* Altough not used here, this increases verbosity.  Try running your playbook a second time using `-v` or `-vv` to increase the verbosity
+
+
+[NOTE]
+- *--syntax-check* If you run into any issues with your playbook running properly; you know, from that copy/pasting that you didn't do because we said "_don't do that_"; you could use this option to help find those issues like so...
+
+[source,bash]
+----
+ansible-playbook install_iis.yml --syntax-check
+----
+
+
+---
+OK, go ahead and run your playbook as specified in *Step 1*
+
+In standard output, you should see something that looks very similar to the following:
+
+image::1.2-putty-playbook_install_iis.png[title="install_iis playbook stdout",width=1000]
+
+
+Notice that the play and each task is named so that you can see what is being done and to which node it is being done to.
+You also may notice a task in there that you didn't write;  <cough> `setup` <cough>.  This is because the `setup` module
+runs by default.  To turn if off, you can specify link:{gather_facts-url}[gather_facts: false] in your play definition like this:
+
+
+[source,bash]
+----
+---
+- hosts: windows
+  name: Install the IIS web server
+  gather_facts: false
+----
+
+
+
+=== Step 2:
+
+Remove IIS
+
+OK, for the next several minutes or as much time as we can afford, we want to to experiment a little.
+We would like you to reverse what you've done, i.e. stop and uninstall iis on your web nodes.
+So, go ahead and make a copy of your playbook in Visual Studio Code named 'remove_iis.yml', edit and commit the changes, and run as previous.
+For this exercise we aren't going to show you line by line, but we will give you a few hints.
+
+[NOTE]
+
+- If your first task in the playbook was to install Web-Server feature  and the second task was to start the service, which order do you think
+those tasks should be in now?
+- If `started` makes sure a service is started, then what option ensures it is stopped?
+- If `present` makes sure a feature is installed, then what option ensures it is removed?  Er... starts with an *ab*, ends with a *sent*
+
+
+
+
+Feel free to browse the help pages to see a list of all options.
+
+- link:{win_feature_url}[Ansible win_feature module]
+- link:{win_service_url}[Ansible win_service module]
+
+
+
+
+
+

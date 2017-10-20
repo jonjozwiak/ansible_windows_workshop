@@ -1,0 +1,428 @@
+---
+# tasks file for manage-ec2-instances
+- name: Get Key Pairs
+  command: aws ec2 describe-key-pairs
+  register: ec2_keypairs
+
+- name: Fail if keypair doesn't exist
+  fail:
+    msg: "Keypair <{{ keypair }}> does not exist"
+  when: "keypair not in ec2_keypairs.stdout"
+  
+- name: Create Ansible Control Node security group   
+  ec2_group:  
+    name: "towersg"  
+    description: "Ansible Tower SG"  
+    vpc_id: "{{ vpc_id }}"  
+    region: "{{ region }}"  
+    rules:    
+      - proto: tcp  
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0  
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp   
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0  
+
+- name: Launch Tower Instance  
+  ec2:  
+    key_name: "{{ keypair }}"  
+    group: "towersg"  
+    instance_type: "{{ tower_instance_type }}"  
+    exact_count: 1
+    count_tag: 
+      Name: "{{'s' + item + 'tower'}}"
+      App: AnsibleWorkshop
+    instance_tags:  
+      Name: "{{'s' + item + 'tower'}}"
+      App: AnsibleWorkshop
+    image: "{{ rhel_ami }}"  
+    wait: true  
+    region: "{{ region }}"  
+    vpc_subnet_id: "{{ vpc_subnet_id }}"  
+    user_data: "{{ lookup('template', 'linux_ec2_user_data.j2') }}"
+    assign_public_ip: yes  
+  with_sequence: count={{user_count}}
+  register: ec2  
+
+- debug: var=ec2
+
+- name: Tower | Add new instance to host group  
+  add_host:  
+    hostname: "{{ item.tags.Name }}"  
+    ansible_ssh_host: "{{ item.public_ip }}"  
+    groups: tower,linux,AnsibleWorkshop
+  with_items: "{{ ec2.tagged_instances }}"  
+
+- name: Tower | Wait for SSH to come up  
+  wait_for:  
+    host: "{{ item.public_ip }}"  
+    port: 22  
+    delay: 1  
+    timeout: 320  
+    state: started  
+  with_items: "{{ ec2.tagged_instances }}"  
+ 
+
+#### Deploy Domain Controller
+- name: DomainController | Get facts from vpc subnet
+  ec2_vpc_subnet_facts:
+    region: "{{ region }}"
+    filters:
+      subnet-id: "{{ vpc_subnet_id }}"
+  register: vpc_subnet_facts
+
+- debug: var=vpc_subnet_facts
+
+- set_fact: 
+     vpc_subnet_cidr: "{{ vpc_subnet_facts.subnets[0].cidr_block }}"
+
+# VPC cidr used to restrict AD access to others in your subnet
+- name: DomainContrller | Create MS AD Domain Controller security group
+  ec2_group:
+    name: "windcsg"
+    description: "Microsoft AD Domain Controller SG"
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    rules:
+      ## WinRM / RDP
+      - proto: tcp
+        from_port: 5986
+        to_port: 5986
+        cidr_ip: "0.0.0.0/0"
+      - proto: tcp
+        from_port: 3389
+        to_port: 3389
+        cidr_ip: "0.0.0.0/0"
+      ## LDAP / LDAPS
+      - proto: tcp
+        from_port: 389
+        to_port: 389
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: udp
+        from_port: 389
+        to_port: 389
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: tcp
+        from_port: 636
+        to_port: 636
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## LDAP GC / GC-SSL
+      - proto: tcp
+        from_port: 3268
+        to_port: 3268
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: tcp
+        from_port: 3269
+        to_port: 3269
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## DNS & NTP
+      - proto: tcp
+        from_port: 53
+        to_port: 53
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: udp
+        from_port: 53
+        to_port: 53
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: udp
+        from_port: 123
+        to_port: 123
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## Kerberos
+      - proto: tcp
+        from_port: 88
+        to_port: 88
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: udp
+        from_port: 88
+        to_port: 88
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## Replication
+      - proto: tcp
+        from_port: 25
+        to_port: 25
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: tcp
+        from_port: 135
+        to_port: 135
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: tcp
+        from_port: 5722
+        to_port: 5722
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## Auth / NetBIOS / Group Policy
+      - proto: udp
+        from_port: 137
+        to_port: 137
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: udp
+        from_port: 138
+        to_port: 138
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: tcp
+        from_port: 139
+        to_port: 139
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## AD DS Web Services
+      - proto: tcp
+        from_port: 9389
+        to_port: 9389
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## Replication, Auth, Trusts 
+      - proto: tcp
+        from_port: 445
+        to_port: 445
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: udp
+        from_port: 445
+        to_port: 445
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: tcp
+        from_port: 464
+        to_port: 464
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      - proto: udp
+        from_port: 464
+        to_port: 464
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+      ## Dynamic / Group Policy
+      - proto: udp
+        from_port: 49152
+        to_port: 65535
+        cidr_ip: "{{ vpc_subnet_cidr }}"
+
+- name: DomainController | Launch instance
+  ec2:
+    key_name: "{{ keypair }}"
+    group: "windcsg"
+    instance_type: "{{ windc_instance_type }}"
+    exact_count: 1
+    count_tag:
+      Name: windc
+      App: AnsibleWorkshop
+    instance_tags:
+      Name: windc
+      App: AnsibleWorkshop
+    image: "{{ windows_ami }}"
+    wait: true
+    region: "{{ region }}"
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    user_data: "{{ lookup('file', 'win_ec2_user_data') }}"
+    assign_public_ip: yes
+  register: ec2dc
+
+- debug: var=ec2dc
+
+- name: DomainController | Wait for WinRM to come up
+  wait_for:
+    host: "{{ item.public_ip }}"
+    port: 5986
+    delay: 1
+    timeout: 320
+    state: started
+  with_items: "{{ ec2dc.tagged_instances }}"
+
+- name: DomainController | Obtain windows passwords for instances
+  ec2_win_password:
+    region: '{{ region }}'
+    instance_id: "{{ item.id }}"
+    key_file: "{{ ec2_key_file }}"
+    wait: yes
+    wait_timeout: 45
+  with_items: "{{ ec2dc.tagged_instances }}"
+  register: ec2dc_password
+  when: ec2dc is defined
+
+# TODO - Comment this out after devel as it prints clear text password
+- debug: var=ec2dc_password
+
+- name: DomainController | Add new instance to host group
+  add_host:
+    hostname: "windc"
+    ansible_host: "{{ item.item.public_ip }}"
+    ansible_port: 5986
+    ansible_user: "Administrator"
+    ansible_password: "{{ item.win_password }}"
+    ansible_connection: "winrm"
+    private_ip: "{{ item.item.private_ip }}"
+    ansible_winrm_transport: "basic"
+    ansible_winrm_server_cert_validation: "ignore"
+    groups: windows_domain_controllers,AnsibleWorkshop
+  with_items: "{{ ec2dc_password.results }}"
+  when: ec2dc_password is defined
+
+### Deploy Windows Hosts
+
+- name: Windows | Create MS Windows security group
+  ec2_group:
+    name: "windowssg"
+    description: "Microsoft Windows SG"
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    rules:
+      ## WinRM / RDP
+      - proto: tcp
+        from_port: 5986
+        to_port: 5986
+        cidr_ip: "0.0.0.0/0"
+      - proto: tcp
+        from_port: 3389
+        to_port: 3389
+        cidr_ip: "0.0.0.0/0"
+
+- name: Windows | Create HTTP security group
+  ec2_group:
+    name: "websg"
+    description: "Web Server SG"
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    rules:
+      ## WinRM / RDP
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: "0.0.0.0/0"
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: "0.0.0.0/0"
+
+- name: Windows | Launch instance
+  ec2:
+    key_name: "{{ keypair }}"
+    group: 
+      - windowssg
+      - websg
+    instance_type: "{{ windows_instance_type }}"
+    exact_count: 1
+    count_tag:
+      Name: wintestvm
+      App: AnsibleWorkshop
+    instance_tags:
+      Name: wintestvm
+      App: AnsibleWorkshop
+    image: "{{ windows_ami }}"
+    wait: true
+    region: "{{ region }}"
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    user_data: "{{ lookup('file', 'win_ec2_user_data') }}"
+    assign_public_ip: yes
+  register: ec2windows
+
+- debug: var=ec2windows
+
+- name: Windows | Wait for WinRM to come up
+  wait_for:
+    host: "{{ item.public_ip }}"
+    port: 5986
+    delay: 1
+    timeout: 320
+    state: started
+  with_items: "{{ ec2windows.tagged_instances }}"
+
+- name: Windows | Obtain windows passwords for instances
+  ec2_win_password:
+    region: '{{ region }}'
+    instance_id: "{{ item.id }}"
+    key_file: "{{ ec2_key_file }}"
+    wait: yes
+    wait_timeout: 45
+  with_items: "{{ ec2windows.tagged_instances }}"
+  register: ec2windows_password
+  when: ec2windows is defined
+
+# TODO - Comment this out after devel as it prints clear text password
+- debug: var=ec2windows_password
+
+- name: Windows | Add new instance to host group
+  add_host:
+    hostname: "wintestvm"
+    ansible_host: "{{ item.item.public_ip }}"
+    ansible_port: 5986
+    ansible_user: "Administrator"
+    ansible_password: "{{ item.win_password }}"
+    ansible_connection: "winrm"
+    ansible_winrm_transport: "basic"
+    ansible_winrm_server_cert_validation: "ignore"
+    groups: windows,AnsibleWorkshop
+  with_items: "{{ ec2windows_password.results }}"
+  when: ec2windows_password is defined
+
+### Deploy Workstation Host
+- name: Workstation | Launch instance
+  ec2:
+    key_name: "{{ keypair }}"
+    group:
+      - windowssg
+    instance_type: "{{ windows_workstation_instance_type }}"
+    exact_count: 1
+    count_tag:
+      Name: workstation
+      App: AnsibleWorkshop
+    instance_tags:
+      Name: workstation
+      App: AnsibleWorkshop
+    image: "{{ windows_ami }}"
+    wait: true
+    region: "{{ region }}"
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    user_data: "{{ lookup('file', 'win_ec2_user_data') }}"
+    assign_public_ip: yes
+  register: ec2workstation
+
+- debug: var=ec2workstation
+
+- name: Workstation | Wait for WinRM to come up
+  wait_for:
+    host: "{{ item.public_ip }}"
+    port: 5986
+    delay: 1
+    timeout: 320
+    state: started
+  with_items: "{{ ec2workstation.tagged_instances }}"
+
+- name: Workstation | Obtain windows passwords for instances
+  ec2_win_password:
+    region: '{{ region }}'
+    instance_id: "{{ item.id }}"
+    key_file: "{{ ec2_key_file }}"
+    wait: yes
+    wait_timeout: 45
+  with_items: "{{ ec2windows.tagged_instances }}"
+  register: ec2workstation_password
+  when: ec2workstation is defined
+
+# TODO - Comment this out after devel as it prints clear text password
+- debug: var=ec2workstation_password
+
+- name: Workstation | Add new instance to host group
+  add_host:
+    hostname: "workstation"
+    ansible_host: "{{ item.item.public_ip }}"
+    ansible_port: 5986
+    ansible_user: "Administrator"
+    ansible_password: "{{ item.win_password }}"
+    ansible_connection: "winrm"
+    ansible_winrm_transport: "basic"
+    ansible_winrm_server_cert_validation: "ignore"
+    groups: windows_workstations,AnsibleWorkshop
+  with_items: "{{ ec2workstation_password.results }}"
+  when: ec2workstation_password is defined
+
+- name: Generate student inventories
+  template:
+    src: instances.txt.j2
+    dest: ./{{ item }}-instances.txt
+  with_items: "{{ users }}"
+
+- name: Generate instructor inventory
+  template:
+    src: instructor_inventory.j2
+    dest: ./instructor_inventory.txt
+

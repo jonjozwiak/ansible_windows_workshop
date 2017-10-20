@@ -1,0 +1,28 @@
+---
+# tasks file for linux-common
+#
+# Set DNS name via network manager
+- name: set DNS resolution in ifcfg file
+  blockinfile:
+    dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+    block: |
+      DNS1={{ dns_server }}
+      DNS2=8.8.8.8
+      DOMAIN="{{dns_domain_name}} ec2.internal"
+      PEERDNS=no
+  register: nm_resolv
+
+- name: restart NetworkManager service
+  service:
+    name: NetworkManager
+    state: restarted
+  when: nm_resolv.changed
+
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - vim
+    - bind-utils
+

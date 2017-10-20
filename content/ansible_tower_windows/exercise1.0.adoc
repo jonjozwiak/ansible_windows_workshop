@@ -1,0 +1,111 @@
+
+:icons: font
+:imagesdir: images
+
+
+
+= Exercise 1.0 - Running Ad-hoc commands
+
+
+== Section 1: Ad-hoc commands
+
+For our first exercise, we are going to run some ad-hoc commands to help you get
+a feel for how Ansible works.  Ansible Ad-Hoc commands enable you to perform tasks
+on remote nodes without having to write a playbook.  They are very useful when you
+simply need to do one or two things quickly and often, to many remote nodes.
+
+
+=== Step 0:
+
+SSH into your Tower host and define your inventory.  Inventories are crucial to Ansible as they define remote machines on which you wish to run
+commands or your playbook(s).  For this workshop we have already created a base inventory file to save you the effort.  Use `cat /etc/ansible/hosts` to view the file.  Notice there is a section of vars to be assigned to particular groups.  Then there are individual hosts within groups including authentication details.
+
+====
+[NOTE]
+At this point we are just using basic authentication to a local Administrator.  Also, the password is clear text in the inventory.  Later in this workshop we will show how to use AD authentication and securely store credentials.
+====
+
+
+=== Step 1:
+
+Let's start with something really basic - pinging a host.  The `win_ping` module makes sure our windows hosts are responsive.  This is not a traditional 'ping', but actually verifying connectivity to the host.
+
+Ansible uses WinRM to interact with Windows hosts.  This has already been setup in our lab.  However, in other environments a script to enable this is provided here: (https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1)
+
+[source,bash]
+----
+ansible windows -m win_ping
+----
+
+=== Step 2:
+
+Now let's see how we can run a PowerShell command and view the output using the `win_shell` module.
+
+[source,bash]
+----
+ansible windows -m win_shell -a "Get-Service"
+ansible windows -m win_shell -a "Get-Process"
+----
+
+=== Step 3:
+
+Take a look at your windows nodes configuration.  The `setup` module displays ansible facts (and a lot of them) about an endpoint.
+
+[source,bash]
+----
+ansible windows -m setup
+----
+
+=== Step 4:
+
+Now, let's install IIS using the `win_feature` module.
+
+[source,bash]
+----
+ansible windows -m win_feature -a "name=Web-Server state=present"
+----
+
+=== Step 5:
+
+OK, IIS is installed now so let's be certain it is started using the `service` module.  Test connectivity with curl to see a base IIS page (Make certain to replace # with your user number).
+
+[source,bash]
+----
+ansible windows -m win_service -a "name=W3Svc state=started"
+curl http://s#win1/
+----
+
+=== Step 6:
+
+Finally, let's clean up after ourselves.  First, stop the httpd service.  You can verify again the the curl just hangs.  (ctrl-c to break out of the command)
+
+[source,bash]
+----
+ansible windows -m win_service -a "name=W3Svc state=stopped"
+curl http://s#win1/
+----
+
+=== Step 7:
+
+Next, remove the IIS feature and reboot.
+
+[source,bash]
+----
+ansible windows -m win_feature -a "name=Web-Server state=absent"
+ansible windows -m win_reboot
+----
+
+
+====
+[NOTE]
+Like many Linux commands, `ansible` allows for long-form options as well as short-form.  For example:
+
+----
+ansible windows --module-name win_ping
+----
+is the same as running
+----
+ansible windows -m win_ping
+----
+We are going to be using the short-form options throughout this workshop
+====

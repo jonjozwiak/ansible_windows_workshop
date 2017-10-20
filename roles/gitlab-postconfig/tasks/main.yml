@@ -1,0 +1,123 @@
+---
+# tasks file for gitlab-postconfig
+- name: GitLab Post | Check for pip
+  stat:
+    path: /usr/bin/pip
+  register: pip
+
+- name: GitLab Post | Install pip
+  shell: easy_install pip
+
+- name: GitLab Post | Install pyapi-gitlab 
+  pip:
+    name: pyapi-gitlab
+
+- name: GitLab Post | Repos to create
+  debug: msg="https://gitlab.{{ dns_domain_name }}/{{user_prefix}}{{item}}/ansible-playbooks"
+  with_sequence: count="{{ user_count }}"
+
+# This module did nothing...  but finished OK.  Why? 
+#- name: GitLab Post | Create Gitlab Project in group Ansible
+#  gitlab_project:
+#    server_url: "https://gitlab.{{ dns_domain_name }}"
+#    validate_certs: False
+#    login_user: "{{user_prefix}}{{item}}"
+#    login_password: "{{ users_password }}"
+#    visibility_level: 10
+#    name: ansible-playbooks
+#    issues_enabled: True
+#    wiki_enabled: False
+#    snippets_enabled: False
+#    merge_requests_enabled: True
+#    state: present
+#  with_sequence: count="{{ user_count }}"
+
+- name: GitLab Post | Copy python create project script
+  copy:
+    src: create_project.py
+    dest: /root/create_project.py
+    owner: root
+    group: root
+    mode: 0700
+
+- name: GitLab Post | Copy python create user script
+  copy:
+    src: create_user.py
+    dest: /root/create_user.py
+    owner: root
+    group: root
+    mode: 0700
+
+#- name: GitLab Post | Set root user password 
+#  shell: > 
+#    echo "user = User.where(id: 1).first
+#    user.password = '{{ domain_admin_password }}'
+#    user.password_confirmation = '{{ domain_admin_password }}'
+#    user.password_automatically_set = false
+#    user.reset_password_token = nil
+#    user.reset_password_sent_at = nil
+#    user.save!
+#    user.unlock_access!
+#    quit
+#    " | gitlab-rails console production
+
+- name: GitLab Post | copy root password script to host
+  template: 
+    src: set_root_pw.sh.j2
+    dest: /root/set_root_pw.sh
+    owner: root
+    group: root
+    mode: 0700
+
+- name: GitLab Post | Execute set root password 
+  command: ./set_root_pw.sh
+  args: 
+    chdir: /root
+
+- name: GitLab Post | Remove set root password script 
+  file:
+    path: /root/set_root_pw.sh
+    state: absent
+
+#- name: sleep 1 minute to allow root to initialize after password set
+#  pause: 
+#    minutes: 1
+
+### Gitlab workaround
+### Users are not populated from AD until login from Web UI 
+### I haven't found an automated workaround... 
+#
+#- name: Add Local users
+#  command: ./create_user.py -s https://gitlab.{{ dns_domain_name }} -u root -p {{ domain_admin_password }} -n {{user_prefix}}{{item}} -w {{ users_password }} -e {{user_prefix}}{{item}}@{{ dns_domain_name }}
+#  args:
+#    chdir: /root
+#  with_sequence: count="{{ user_count }}"
+#  register: gitlab_users
+#  changed_when: "user_prefix + item + 'already exists' not in gitlab_users.stdout"
+
+- name: GitLab Post | Create local users
+  gitlab_user:
+    server_url: https://gitlab.{{ dns_domain_name }}
+    validate_certs: False
+    login_user: root
+    login_password: "{{ domain_admin_password }}"
+    name: "{{ user_prefix }}{{ item }}"
+    username: "{{ user_prefix }}{{ item }}"
+    password: "AnsibleWS2017#"
+    email: "{{ user_prefix }}{{ item }}@{{ dns_domain_name }}"
+    confirm: False
+    state: present
+  with_sequence: count="{{ user_count }}"
+
+- name: GitLab Post | Create Projects in GitLab
+  command: ./create_project.py -s https://gitlab.{{ dns_domain_name }} -u {{user_prefix}}{{item}} -p {{ users_password }} -r {{user_prefix}}{{item}}-playbooks
+  args: 
+    chdir: /root
+  with_sequence: count="{{ user_count }}"
+  register: gitlab_repos
+  changed_when: "user_prefix + item + '-playbooks already Exists' not in gitlab_repos.stdout"
+
+
+
+
+

@@ -1,0 +1,3162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>Automation for Everyone</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install();
+/*]]>*/
+</script>
+</head>
+<body class="book">
+<div id="header">
+<h1>Automation for Everyone</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_today_8217_s_agenda">Today&#8217;s Agenda</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Arrivals, Introductions
+</p>
+</li>
+<li>
+<p>
+Workshop Setup
+</p>
+</li>
+<li>
+<p>
+Ansible Labs
+</p>
+</li>
+<li>
+<p>
+Ansible Tower Labs
+</p>
+</li>
+<li>
+<p>
+Use Cases
+</p>
+</li>
+</ul></div>
+<div class="sect2">
+<h3 id="_before_we_get_started">Before We Get Started</h3>
+<div class="paragraph"><p>You will need a system which has an RDP client in order to interact with the lab.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Today is meant for anyone who has any exposure to Ansible, whether you have used it or not.  The format of this discussion is a combination of presentation, demonstration, and hands-on labs.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_your_responsibilities">Your Responsibilities</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Have a discussion. This will be boring if it&#8217;s just us up here talking for over 4 hours.
+</p>
+</li>
+<li>
+<p>
+Participate. We are going to cut you loose with Ansible here in just a little while. Have questions. Have opinions.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Hopefully you have your laptop with you. If not, please find a shoulder-surfing buddy. See? Not only can we dig into Ansible but you can make a new friend!</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conventions_used_in_this_document">Conventions Used in This Document</h2>
+<div class="sectionbody">
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/tip.png" alt="Tip" />
+</td>
+<td class="content">Whenever you see a section like this, please pay close attention.  We are leading you through a process.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p><strong>Step 1:</strong> Run this command to do something or other</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m setup</tt></pre></div></div>
+<div class="paragraph"><p><strong>Step 2:</strong> Edit this file in this specific way</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+- hosts<span style="color: #990000">:</span> web
+  name<span style="color: #990000">:</span> This is a play within a playbook
+  become<span style="color: #990000">:</span> yes
+  vars<span style="color: #990000">:</span>
+    httpd_packages<span style="color: #990000">:</span>
+      - httpd
+      - mod_wsgi</tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/important.png" alt="Important" />
+</td>
+<td class="content">Do not cut and paste text from this document.  We really want you to learn ansible during this workshop,
+and part of that experience is typing out YAML and understanding it&#8217;s syntax, spacing, and alignments.</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_document_copyright">Document Copyright</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This document was created by and for Red Hat, Inc. It is being released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons License 4.0</a>. You are free to re-use it in whole or in part.</p></div>
+<div class="paragraph"><p>You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</p></div>
+</div>
+</div>
+<h1 id="_workshop_lab_setup">Workshop Lab Setup</h1>
+<div class="imageblock">
+<div class="content">
+<img src="images/tower.002.png" alt="Tower" />
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup">Setup</h2>
+<div class="sectionbody">
+<div class="ulist IMPORTANT"><ul>
+<li>
+<p>
+Today&#8217;s workshop infrastructure is being run in Amazon EC2.
+</p>
+</li>
+<li>
+<p>
+Each student will have four instances to use.  Connectivity details will be provided by the instructor.
+</p>
+</li>
+<li>
+<p>
+Central Active Directory, DNS, and GitLab environments are available for use.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workshop_infrastructure">Workshop Infrastructure</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Each student&#8217;s personal EC2 lab is equipped with the following:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+(1) Control node (Linux host to run ansible plays and install Ansible Tower).
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Red Hat Enterprise 7.4
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+(1) Windows Workstation (to interact with the environment, edit code, etc).
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Windows 2016
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+(2) Windows Endpoint nodes (to execute ansible playbooks upon).
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Windows 2016
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Ansible Engine 2.4
+</p>
+</li>
+<li>
+<p>
+Ansible Tower 3.2
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><div class="title">Setup Your Environment</div><p>Before we can begin doing super-cool automations and such, we&#8217;ve got to get a few basics out of the way.
+Namely&#8230; RDP and SSH access to your EC2 nodes.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_testing_your_environment">Testing your environment</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Log into your workstation instance with an RDP client using the details provided by your instructor.  You will see a few things pre-installed for use today:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Putty (SSH to the Ansible Linux host)
+</p>
+</li>
+<li>
+<p>
+Visual Studio Code (Editor for creating playbooks)
+</p>
+</li>
+<li>
+<p>
+Git (Source Code Control)
+</p>
+</li>
+<li>
+<p>
+Firefox
+</p>
+</li>
+</ul></div>
+<div class="sect2">
+<h3 id="_tower">Tower</h3>
+<div class="paragraph"><p>From your workstation, open up a putty window and connect to <em>s#tower</em> where # is your student number.  The user will be <em>student#</em>, and your password will be provided by the instructor.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/important.png" alt="Important" />
+</td>
+<td class="content">Be sure you can log in to your tower and workstation instances.  If you can&#8217;t log in start shouting, loudly, and waving your hands!  We will test access to the other hosts in the first exercise.</td>
+</tr></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_end_result">End Result</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>At this point, everyone should have logged into your tower and workstation nodes.  If you haven&#8217;t, let us know so we can get you fixed up.</p></div>
+</div>
+</div>
+<h1 id="_exercise_1_0_running_ad_hoc_commands">Exercise 1.0 - Running Ad-hoc commands</h1>
+<div class="sect1">
+<h2 id="_section_1_ad_hoc_commands">Section 1: Ad-hoc commands</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>For our first exercise, we are going to run some ad-hoc commands to help you get
+a feel for how Ansible works.  Ansible Ad-Hoc commands enable you to perform tasks
+on remote nodes without having to write a playbook.  They are very useful when you
+simply need to do one or two things quickly and often, to many remote nodes.</p></div>
+<div class="sect2">
+<h3 id="_step_0">Step 0:</h3>
+<div class="paragraph"><p>SSH into your Tower host and define your inventory.  Inventories are crucial to Ansible as they define remote machines on which you wish to run
+commands or your playbook(s).  For this workshop we have already created a base inventory file to save you the effort.  Use <code>cat /etc/ansible/hosts</code> to view the file.  Notice there is a section of vars to be assigned to particular groups.  Then there are individual hosts within groups including authentication details.</p></div>
+<div class="exampleblock">
+<div class="content">
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">At this point we are just using basic authentication to a local Administrator.  Also, the password is clear text in the inventory.  Later in this workshop we will show how to use AD authentication and securely store credentials.</td>
+</tr></table>
+</div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_1">Step 1:</h3>
+<div class="paragraph"><p>Let&#8217;s start with something really basic - pinging a host.  The <code>win_ping</code> module makes sure our windows hosts are responsive.  This is not a traditional <em>ping</em>, but actually verifying connectivity to the host.</p></div>
+<div class="paragraph"><p>Ansible uses WinRM to interact with Windows hosts.  This has already been setup in our lab.  However, in other environments a script to enable this is provided here: (<a href="https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1">https://github.com/ansible/ansible/blob/devel/examples/scripts/ConfigureRemotingForAnsible.ps1</a>)</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m win_ping</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2">Step 2:</h3>
+<div class="paragraph"><p>Now let&#8217;s see how we can run a PowerShell command and view the output using the <code>win_shell</code> module.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m win_shell -a <span style="color: #FF0000">"Get-Service"</span>
+ansible windows -m win_shell -a <span style="color: #FF0000">"Get-Process"</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3">Step 3:</h3>
+<div class="paragraph"><p>Take a look at your windows nodes configuration.  The <code>setup</code> module displays ansible facts (and a lot of them) about an endpoint.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m setup</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_4">Step 4:</h3>
+<div class="paragraph"><p>Now, let&#8217;s install IIS using the <code>win_feature</code> module.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m win_feature -a <span style="color: #FF0000">"name=Web-Server state=present"</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_5">Step 5:</h3>
+<div class="paragraph"><p>OK, IIS is installed now so let&#8217;s be certain it is started using the <code>service</code> module.  Test connectivity with curl to see a base IIS page (Make certain to replace # with your user number).</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m win_service -a <span style="color: #FF0000">"name=W3Svc state=started"</span>
+curl http<span style="color: #990000">:</span>//s<span style="font-style: italic"><span style="color: #9A1900">#win1/</span></span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_6">Step 6:</h3>
+<div class="paragraph"><p>Finally, let&#8217;s clean up after ourselves.  First, stop the httpd service.  You can verify again the the curl just hangs.  (ctrl-c to break out of the command)</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m win_service -a <span style="color: #FF0000">"name=W3Svc state=stopped"</span>
+curl http<span style="color: #990000">:</span>//s<span style="font-style: italic"><span style="color: #9A1900">#win1/</span></span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_7">Step 7:</h3>
+<div class="paragraph"><p>Next, remove the IIS feature and reboot.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible windows -m win_feature -a <span style="color: #FF0000">"name=Web-Server state=absent"</span>
+ansible windows -m win_reboot</tt></pre></div></div>
+<div class="exampleblock">
+<div class="content">
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">Like many Linux commands, <code>ansible</code> allows for long-form options as well as short-form.  For example:</td>
+</tr></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre><code>ansible windows --module-name win_ping</code></pre>
+</div></div>
+<div class="paragraph"><p>is the same as running</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>ansible windows -m win_ping</code></pre>
+</div></div>
+<div class="paragraph"><p>We are going to be using the short-form options throughout this workshop</p></div>
+</div></div>
+</div>
+</div>
+</div>
+<h1 id="_exercise_1_1_writing_your_first_playbook">Exercise 1.1 - Writing Your First playbook</h1>
+<div class="paragraph"><p>Now that you&#8217;ve gotten a sense of how ansible works, we are going to write our first
+ansible <strong>playbook</strong>.  The playbook is where you can take some of those ad-hoc commands you just ran
+and put them into a repeatable set of <strong>plays</strong> and <strong>tasks</strong>.</p></div>
+<div class="paragraph"><p>A playbook can have multiple plays and a play
+can have one or multiple tasks.  The goal of a <strong>play</strong> is to map a group of hosts.  The goal of a <strong>task</strong> is to implement modules against those hosts.</p></div>
+<div class="paragraph"><p>For our first playbook, we are only going to write one play and two tasks.</p></div>
+<div class="sect1">
+<h2 id="_overview_2">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Starting at this task we are going to work from our workstation host.  We will use Visual Studio Code as our editor.  In addition, we will use GitLab for source code control.  This will allow us to minimize development work on the linux command line.  Other editors or source code solutions can be used, but this will show the general workflow.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_1_creating_a_directory_structure_and_files_for_your_playbook">Section 1: Creating a Directory Structure and Files for your Playbook</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There is a <a href="http://docs.ansible.com/ansible/playbooks_best_practices.html">best practice</a> on the preferred directory structures for playbooks.  We strongly encourage
+you to read and understand these practices as you develop your Ansible ninja skills.  That said,
+our playbook today is very basic and creating a complex structure will just confuse things.</p></div>
+<div class="paragraph"><p>Instead, we are going to create a very simple directory structure for our playbook, and add just a couple of files to it.</p></div>
+<div class="paragraph"><p><strong>Step 1:</strong> Open Visual Studio Code and Clone an empty git repository</p></div>
+<div class="paragraph"><p>When you open Visual Studio Code, a <em>Welcome</em> screen will load.  When prompted, choose <code>Firefox</code> as your default browser (and don&#8217;t import anything).  You can close the browser for now.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">Internet Explorer 11 has some issues with Ansible Tower in the later labs.  Due to this we will use Firefox in these examples.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>In the main window, click <em>Clone git repository</em></p></div>
+<div class="paragraph"><p>TODO - Create a 1.1-vscode-gitclone.png!!! Missed this one!
+<span class="image">
+<img src="images/:.png" alt=":.png" width="1000" title="Git Clone" />
+</span></p></div>
+<div class="paragraph"><p>At the top, enter <a href="https://gitlab.ansibleworkshop.com/student#/student#-playbooks">https://gitlab.ansibleworkshop.com/student#/student#-playbooks</a>, where # is your student number.
+When it prompts you for directory, leave the default (C:\Users\Administrator)</p></div>
+<div class="paragraph"><p>You will see the progress spin in the bottom left bar.  Eventually you will be prompted for your gitlab user/password.  (Watch your menu bar for this to pop up)  Use your AD credentials (student#/&#8230;)</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.1-vscode-gitclonepassword.png" alt="1.1-vscode-gitclonepassword.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Once synced, click the <code>Open Repository</code> button at the top.</p></div>
+<div class="paragraph"><p>At this point in the Explorer accordion you should have a <em>student#-playbooks</em> section with no files.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1-1-vscode-studentplaybooks.png" alt="1-1-vscode-studentplaybooks.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p><strong>Step 2:</strong> Create a directory and called <strong>iis_basic</strong> and a file called <code>install_iis.yml</code></p></div>
+<div class="paragraph"><p>Hover over the <em>student#-playbooks</em> section and click on the <em>New Folder</em> button</p></div>
+<div class="paragraph"><p>Type iis_basic and hit enter.  Then click on that folder so it is selected.</p></div>
+<div class="paragraph"><p>Hover over the <em>student#-playbooks</em> section again and click on the <em>New File</em> button.</p></div>
+<div class="paragraph"><p>Type install_iis.yml and hit enter.</p></div>
+<div class="paragraph"><p>You should now have an editor open in the right pane that can be used for creating your playbook.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.1-vscode-emptyinstall_iis.yml.png" alt="1.1-vscode-emptyinstall_iis.yml.png" width="1000" />
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_2_defining_your_play">Section 2: Defining Your Play</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now that you are editing <code>install_iis.yml</code>, let&#8217;s begin by defining the play and then understanding what each line accomplishes</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+- hosts<span style="color: #990000">:</span> windows
+  name<span style="color: #990000">:</span> Install the IIS web service</tt></pre></div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>---</code> Defines the beginning of YAML
+</p>
+</li>
+<li>
+<p>
+<code>hosts: windows</code> Defines the host group in your inventory on which this play will run against
+</p>
+</li>
+<li>
+<p>
+<code>name: Install the IIS web service</code> This describes our play
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_3_adding_tasks_to_your_play">Section 3: Adding Tasks to Your Play</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now that we&#8217;ve defined your play, let&#8217;s add some tasks to get some things done.  Align (vertically) the <strong>t</strong> in <code>task</code> with the <strong>n</strong> <code>name</code>. <br />
+Yes, it does actually matter.  In fact, you should make sure all of your playbook statements are aligned in the way shown here.<br />
+If you want to see the entire playbook for reference, skip to the bottom of this exercise.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>  tasks<span style="color: #990000">:</span>
+   - name<span style="color: #990000">:</span> Install IIS
+     win_feature<span style="color: #990000">:</span>
+       name<span style="color: #990000">:</span> Web-Server
+       state<span style="color: #990000">:</span> present
+
+   - name<span style="color: #990000">:</span> Start IIS Service
+     win_service<span style="color: #990000">:</span>
+       name<span style="color: #990000">:</span> W3Svc
+       state<span style="color: #990000">:</span> started</tt></pre></div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>tasks:</code> This denotes that one or more tasks are about to be defined
+</p>
+</li>
+<li>
+<p>
+<code>- name:</code> Each task requires a name which will print to standard output when you run your playbook.
+Therefore, give your tasks a name that is short, sweet, and to the point
+</p>
+</li>
+</ul></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>win_feature<span style="color: #990000">:</span>
+  name<span style="color: #990000">:</span> Web-Server
+  state<span style="color: #990000">:</span> present</tt></pre></div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+These three lines are calling the Ansible module <strong>win_feature</strong> to install the IIS Web Server.
+<a href="http://docs.ansible.com/ansible/latest/win_feature_module.html">Click here</a> to see all options for the win_feature module.
+</p>
+</li>
+</ul></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>win_service<span style="color: #990000">:</span>
+  name<span style="color: #990000">:</span> W3Svc
+  state<span style="color: #990000">:</span> started</tt></pre></div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+The next few lines are using the ansible module <strong>win_service</strong> to start the IIS service.  The win_service module
+is the preferred way of controlling services on remote hosts.  <a href="http://docs.ansible.com/ansible/latest/win_service_module.html">Click here</a> to learn more
+about the <strong>win_service</strong> module.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_4_saving_your_playbook">Section 4: Saving your Playbook</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now that you&#8217;ve completed writing your playbook, it would be a shame not to keep it.</p></div>
+<div class="paragraph"><p>Click <em>File</em> from the menu and then click <em>Save</em></p></div>
+<div class="paragraph"><p>And that should do it.  You should now have a fully written playbook called <code>install_iis.yml</code>.</p></div>
+<div class="paragraph"><p>But wait!!!  We haven&#8217;t committed our changes from our local copy to source code.
+Click on the Source Code icon as shown below (It is the middle on the far left of the page that has the blue circle with # 1 in it)</p></div>
+<div class="paragraph"><p>Type in a commit message such as <em>Adding install_iis.yml</em> and click the check box above to commit.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.1-vscode-install_iis.yml_commit.png" alt="1.1-vscode-install_iis.yml_commit.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>This will prompt to ask if you want to stage the changes.  Click on <em>Always</em> and you won&#8217;t be prompted again.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.1-vscode-stage_commits_always.png" alt="1.1-vscode-stage_commits_always.png" width="600" />
+</div>
+</div>
+<div class="paragraph"><p>Now you need to push the committed changes to your repository.</p></div>
+<div class="paragraph"><p>On the bottom left blue bar, click the cloud with the up arrow on it to publish changes.</p></div>
+<div class="paragraph"><p>Next in the top of the window it will prompt you to pick a remote to publish to.  Choose the default (<code>origin</code>)</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.1-vscode-gitpush_origin.png" alt="1.1-vscode-gitpush_origin.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>This may take as long as 30 seconds to push.  If you&#8217;re interested in validating the code is in git, you can connect to gitlab to verify.  Open <code>Firefox</code> and connect to <code>https://gitlab.ansibleworkshop.com</code>.  Login with your AD user (student#) and password and you should see your repo.</p></div>
+<div class="paragraph"><p>You are ready to automate!</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">Ansible (well, YAML really) can be a bit particular about formatting especially around indentation/spacing.  When you all get back to the office,
+read up on this <a href="http://docs.ansible.com/ansible/YAMLSyntax.html">YAML Syntax</a> a bit more and it will save you some headaches later.  In the meantime, your completed playbook should look
+like this.  Take note of the spacing and alignment.</td>
+</tr></table>
+</div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+- hosts<span style="color: #990000">:</span> windows
+  name<span style="color: #990000">:</span> Install the IIS web service
+
+  tasks<span style="color: #990000">:</span>
+    - name<span style="color: #990000">:</span> Install IIS
+      win_feature<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> Web-Server
+        state<span style="color: #990000">:</span> present
+
+    - name<span style="color: #990000">:</span> Start IIS Service
+      win_service<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> W3Svc
+        state<span style="color: #990000">:</span> started</tt></pre></div></div>
+</div>
+</div>
+<h1 id="_exercise_1_2_running_your_playbook">Exercise 1.2 - Running Your Playbook</h1>
+<div class="sect1">
+<h2 id="_section_1_running_the_playbook">Section 1: Running the Playbook</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We are now going to run you&#8217;re brand spankin' new playbook on your two windows nodes.  To do this,
+ you are going to use the <code>ansible-playbook</code> command.</p></div>
+<div class="sect2">
+<h3 id="_step_1_2">Step 1:</h3>
+<div class="paragraph"><p>Use putty to login to your s#tower host as student#</p></div>
+<div class="paragraph"><p>Clone the playbooks from source code and then execute the playbook.  Be certain to use your student number below.  Also, due to our self-signed cert we need to first disable ssl verification</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>git config --global http<span style="color: #990000">.</span>sslVerify <span style="font-weight: bold"><span style="color: #0000FF">false</span></span>
+
+<span style="font-style: italic"><span style="color: #9A1900"># Setup to cache git credentials in memory for a day</span></span>
+git config --global credential<span style="color: #990000">.</span>helper cache
+git config --global credential<span style="color: #990000">.</span>helper <span style="color: #FF0000">'cache --timeout=86400'</span>
+
+git clone https<span style="color: #990000">:</span>//gitlab<span style="color: #990000">.</span>ansibleworkshop<span style="color: #990000">.</span>com/student<span style="font-style: italic"><span style="color: #9A1900">#/student#-playbooks.git</span></span>
+        <span style="font-style: italic"><span style="color: #9A1900"># Username is student# and your associated password.</span></span>
+cd student<span style="font-style: italic"><span style="color: #9A1900">#-playbooks/iis_basic</span></span>
+ansible-playbook install_iis<span style="color: #990000">.</span>yml</tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">If you have already cloned the repository, you can run a <em>git pull</em> within the directory to get the latest version.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>However, before you go ahead and run that command, lets take a few moments to understand some options.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>-i</strong> This option could be used to specify the inventory file you wish to use.  We are using the default (/etc/ansible/hosts)
+</p>
+</li>
+<li>
+<p>
+<strong>-v</strong> Altough not used here, this increases verbosity.  Try running your playbook a second time using <code>-v</code> or <code>-vv</code> to increase the verbosity
+</p>
+</li>
+<li>
+<p>
+<strong>--syntax-check</strong> If you run into any issues with your playbook running properly; you know, from that copy/pasting that you didn&#8217;t do because we said "<em>don&#8217;t do that</em>"; you could use this option to help find those issues like so&#8230;
+</p>
+</li>
+</ul></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible-playbook install_iis<span style="color: #990000">.</span>yml --syntax-check</tt></pre></div></div>
+<div class="paragraph"><p>---
+OK, go ahead and run your playbook as specified in <strong>Step 1</strong></p></div>
+<div class="paragraph"><p>In standard output, you should see something that looks very similar to the following:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.2-putty-playbook_install_iis.png" alt="1.2-putty-playbook_install_iis.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Notice that the play and each task is named so that you can see what is being done and to which node it is being done to.
+You also may notice a task in there that you didn&#8217;t write;  &lt;cough&gt; <code>setup</code> &lt;cough&gt;.  This is because the <code>setup</code> module</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+- hosts<span style="color: #990000">:</span> windows
+  name<span style="color: #990000">:</span> Install the IIS web server
+  gather_facts<span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">false</span></span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_2">Step 2:</h3>
+<div class="paragraph"><p>Remove IIS</p></div>
+<div class="paragraph"><p>OK, for the next several minutes or as much time as we can afford, we want to to experiment a little.
+We would like you to reverse what you&#8217;ve done, i.e. stop and uninstall iis on your web nodes.
+So, go ahead and make a copy of your playbook in Visual Studio Code named <em>remove_iis.yml</em>, edit and commit the changes, and run as previous.
+For this exercise we aren&#8217;t going to show you line by line, but we will give you a few hints.</p></div>
+<div class="ulist NOTE"><ul>
+<li>
+<p>
+If your first task in the playbook was to install Web-Server feature  and the second task was to start the service, which order do you think
+those tasks should be in now?
+</p>
+</li>
+<li>
+<p>
+If <code>started</code> makes sure a service is started, then what option ensures it is stopped?
+</p>
+</li>
+<li>
+<p>
+If <code>present</code> makes sure a feature is installed, then what option ensures it is removed?  Er&#8230; starts with an <strong>ab</strong>, ends with a <strong>sent</strong>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Feel free to browse the help pages to see a list of all options.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="http://docs.ansible.com/ansible/latest/win_feature_module.html">Ansible win_feature module</a>
+</p>
+</li>
+<li>
+<p>
+<a href="http://docs.ansible.com/ansible/latest/win_service_module.html">Ansible win_service module</a>
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<h1 id="_exercise_1_3_using_variables_loops_and_handlers">Exercise 1.3 - Using Variables, Loops, and Handlers</h1>
+<div class="paragraph"><p>Previous exercises showed you the basics of Ansible Core.  In the next few exercises, we are going
+to teach some more advanced ansible skills that will add flexibility and power to your playbooks.</p></div>
+<div class="paragraph"><p>Ansible exists to make tasks simple and repeatable.  We also know that not all systems are exactly alike and often require
+some slight change to the way an Ansible playbook is run.  Enter variables.</p></div>
+<div class="paragraph"><p>Variables are how we deal with differences between your systems, allowing you to account for a change in port, IP address
+or directory.</p></div>
+<div class="paragraph"><p>Loops enable us to repeat the same task over and over again.  For example, lets say you want to start multiple services, install several features, or create multiple directories.
+By using an ansible loop, you can do that in a single task.</p></div>
+<div class="paragraph"><p>Handlers are the way in which we restart services.  Did you just deploy a new config file, install a new package?
+If so, you may need to restart a service for those changes to take effect.  We do that with a handler.</p></div>
+<div class="paragraph"><p>For a full understanding of variables, loops, and handlers; check out our Ansible documentation on these subjects.<br />
+<a href="http://docs.ansible.com/ansible/latest/playbooks_variables.html">Ansible Variables</a><br />
+<a href="http://docs.ansible.com/ansible/latest/playbooks_loops.html">Ansible Loops</a><br />
+<a href="http://docs.ansible.com/ansible/latest/playbooks_intro.html#handlers-running-operations-on-change">Ansible Handlers</a></p></div>
+<div class="sect1">
+<h2 id="_section_1_running_the_playbook_2">Section 1: Running the Playbook</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To begin, we are going to create a new playbook, but it should look very familiar to the one you created in exercise 1.2</p></div>
+<div class="paragraph"><p>We are now going to run you&#8217;re brand spankin' new playbook on your two web nodes.  To do this, you are going to use the <code>ansible-playbook</code> command.</p></div>
+<div class="sect2">
+<h3 id="_step_1_3">Step 1:</h3>
+<div class="paragraph"><p>Within Visual Studio Code, create a new directory in your git repo and create a site.yml file.</p></div>
+<div class="paragraph"><p>In the Explorer accordion you should have a <em>student#-playbooks</em> section where you previously made iis_basic.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.3-vscode-student_playbooks.png" alt="1.3-vscode-student_playbooks.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Create a folder called <strong>iis_basic_playbook</strong> and a file called <code>site.yml</code></p></div>
+<div class="paragraph"><p>Hover over the <em>student#-playbooks</em> section and click on the <em>New Folder</em> button</p></div>
+<div class="paragraph"><p>Type iis_basic_playbook and hit enter.  Then click on that folder so it is selected.</p></div>
+<div class="paragraph"><p>Hover over the <em>student#-playbooks</em> section again and click on the <em>New File</em> button.</p></div>
+<div class="paragraph"><p>Type site.yml and hit enter.</p></div>
+<div class="paragraph"><p>You should now have an editor open in the right pane that can be used for creating your playbook.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.3-vscode-site.yml.png" alt="1.3-vscode-site.yml.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_3">Step 2:</h3>
+<div class="paragraph"><p>Add a play definition and some variables to your playbook.  These include addtional packages your playbook will install on your web servers, plus some web server specific configurations.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+- hosts<span style="color: #990000">:</span> windows
+  name<span style="color: #990000">:</span> This is a play within a playbook
+  vars<span style="color: #990000">:</span>
+    iis_sites<span style="color: #990000">:</span>
+      - name<span style="color: #990000">:</span> <span style="color: #FF0000">'Ansible Playbook Test'</span>
+        port<span style="color: #990000">:</span> <span style="color: #FF0000">'8080'</span>
+        path<span style="color: #990000">:</span> <span style="color: #FF0000">'C:</span><span style="color: #CC33CC">\s</span><span style="color: #FF0000">ites</span><span style="color: #CC33CC">\p</span><span style="color: #FF0000">laybooktest'</span>
+      - name<span style="color: #990000">:</span> <span style="color: #FF0000">'Ansible Playbook Test 2'</span>
+        port<span style="color: #990000">:</span> <span style="color: #FF0000">'8081'</span>
+        path<span style="color: #990000">:</span> <span style="color: #FF0000">'C:</span><span style="color: #CC33CC">\s</span><span style="color: #FF0000">ites</span><span style="color: #CC33CC">\p</span><span style="color: #FF0000">laybooktest2'</span>
+    iis_test_message<span style="color: #990000">:</span> <span style="color: #FF0000">"Hello World!  My test IIS Server"</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_2">Step 3:</h3>
+<div class="paragraph"><p>Add a new task called <strong>install IIS</strong>.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>  tasks<span style="color: #990000">:</span>
+    - name<span style="color: #990000">:</span> Install IIS
+      win_feature<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> Web-Server
+        state<span style="color: #990000">:</span> present
+
+    - name<span style="color: #990000">:</span> Create site directory structure
+      win_file<span style="color: #990000">:</span>
+        path<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.path }}"</span>
+        state<span style="color: #990000">:</span> directory
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+
+    - name<span style="color: #990000">:</span> Create IIS site
+      win_iis_website<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.name }}"</span>
+        state<span style="color: #990000">:</span> started
+        port<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.port }}"</span>
+        physical_path<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.path }}"</span>
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+      notify<span style="color: #990000">:</span> restart iis service</tt></pre></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.3-vscode-firsthalf_site.yml.png" alt="1.3-vscode-firsthalf_site.yml.png" width="1000" />
+</div>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">
+<div class="paragraph"><p><strong>What the Helsinki is happening here!?</strong><br /></p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>vars:</code> You&#8217;ve told Ansible the next thing it sees will be a variable name<br />
+</p>
+</li>
+<li>
+<p>
+<code>iis_sites</code> You are defining a list-type variable called iis_sites.  What follows
+is a list of each site with it&#8217;s related variables<br />
+</p>
+</li>
+<li>
+<p>
+<code>file:</code> This module is used to create, modify, delete files, directories, and symlinks.
+</p>
+</li>
+<li>
+<p>
+<code>{{ item }}</code> You are telling Ansible that this will expand into a list item.  Each item has several variables like <code>name</code>, <code>port</code>, and <code>path</code>.<br />
+</p>
+</li>
+<li>
+<p>
+<code>with_items: "{{ iis_sites }}</code> This is your loop which is instructing Ansible to perform this task on
+every <code>item</code> in <code>iis_sites</code>
+</p>
+</li>
+<li>
+<p>
+<code>notify: restart iis service</code> This statement is a <code>handler</code>, so we&#8217;ll come back to it in Section 3.
+</p>
+</li>
+</ul></div>
+</td>
+</tr></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_2_opening_firewall_and_deploying_files">Section 2: Opening Firewall and Deploying Files</h2>
+<div class="sectionbody">
+<div class="paragraph"><p></p></div>
+<div class="paragraph"><p>After that, you will define a task to start the start the apache service.</p></div>
+<div class="sect2">
+<h3 id="_step_1_4">Step 1:</h3>
+<div class="paragraph"><p>Create a <code>templates</code> directory in your project directory and create a template as follows:</p></div>
+<div class="paragraph"><p>Ensure your *iis_basic_playbook folder is highlighted and then hover over the <em>student#-playbooks</em> section and click on the <em>New Folder</em> button</p></div>
+<div class="paragraph"><p>Type templates and hit enter.  Then click on that folder so it is selected.</p></div>
+<div class="paragraph"><p>Hover over the <em>student#-playbooks</em> section again and click on the <em>New File</em> button.</p></div>
+<div class="paragraph"><p>Type index.html.j2 and hit enter.</p></div>
+<div class="paragraph"><p>You should now have an editor open in the right pane that can be used for creating your template.  Enter the following details:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #990000">&lt;</span>html<span style="color: #990000">&gt;</span>
+<span style="color: #990000">&lt;</span>body<span style="color: #990000">&gt;</span>
+
+  <span style="color: #990000">&lt;</span>p <span style="color: #009900">align</span><span style="color: #990000">=</span>center<span style="color: #990000">&gt;&lt;</span>img <span style="color: #009900">src</span><span style="color: #990000">=</span><span style="color: #FF0000">'http://docs.ansible.com/images/logo.png'</span> <span style="color: #009900">align</span><span style="color: #990000">=&gt;</span>
+  <span style="color: #990000">&lt;</span>h1 <span style="color: #009900">align</span><span style="color: #990000">=</span>center<span style="color: #990000">&gt;</span>{{ ansible_hostname }} --- {{ iis_test_message }}
+
+<span style="color: #990000">&lt;</span>/body<span style="color: #990000">&gt;</span>
+<span style="color: #990000">&lt;</span>/html<span style="color: #990000">&gt;</span>
+</tt></pre></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.3-vscode-template.png" alt="1.3-vscode-template.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_4">Step 2:</h3>
+<div class="paragraph"><p>Add to your playbook, <code>site.yml</code>, opening your firewall ports and writing the template.  Use single quotes for win_template in order to not escape the forward slash.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    - name<span style="color: #990000">:</span> Open port <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> site on the firewall
+      win_firewall_rule<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> <span style="color: #FF0000">"iisport{{ item.port }}"</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">enable</span></span><span style="color: #990000">:</span> yes
+        state<span style="color: #990000">:</span> present
+        localport<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.port }}"</span>
+        action<span style="color: #990000">:</span> Allow
+        direction<span style="color: #990000">:</span> In
+        protocol<span style="color: #990000">:</span> Tcp
+        force<span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">true</span></span>
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+
+    - name<span style="color: #990000">:</span> Template simple web site to iis_site_path as index<span style="color: #990000">.</span>html
+      win_template<span style="color: #990000">:</span>
+        src<span style="color: #990000">:</span> <span style="color: #FF0000">'index.html.j2'</span>
+        dest<span style="color: #990000">:</span> <span style="color: #FF0000">'{{ item.path }}</span><span style="color: #CC33CC">\i</span><span style="color: #FF0000">ndex.html'</span>
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span></tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">
+<div class="paragraph"><p><strong>So&#8230; what did I just write?</strong></p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>win_firewall_rule:</code> This module is used to create, modify, and update firewall rules.  Note in the case of AWS there are also security group rules which may impact communication.  We&#8217;ve opened these for the ports in this example.
+</p>
+</li>
+<li>
+<p>
+<code>win_template:</code> This module specifies that a jinja2 template is being used and deployed.
+</p>
+</li>
+<li>
+<p>
+used in Ansible to transform data inside a template expression, i.e. filters.
+</p>
+</li>
+</ul></div>
+</td>
+</tr></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_3_defining_and_using_handlers">Section 3: Defining and Using Handlers</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There are any number of reasons we often need to restart a service/process including the deployment of a configuration file, installing a new package, etc.  There are really two parts to this Section; adding a handler to the playbook and calling the handler after the a task.  We will start with the former.</p></div>
+<div class="sect2">
+<h3 id="_step_1_5">Step 1:</h3>
+<div class="paragraph"><p>Define a handler.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>  handlers<span style="color: #990000">:</span>
+    - name<span style="color: #990000">:</span> restart iis service
+      win_service<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> W3Svc
+        state<span style="color: #990000">:</span> restarted
+        start_mode<span style="color: #990000">:</span> auto</tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">
+<div class="paragraph"><p><strong>You can&#8217;t have a former if you don&#8217;t mention the latter</strong></p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>handler:</code> This is telling the <strong>play</strong> that the <code>tasks:</code> are over, and now we are defining <code>handlers:</code>.
+  Everything below that looks the same as any other task, i.e. you give it a name, a module, and the options for that
+  module.  This is the definition of a handler.
+</p>
+</li>
+<li>
+<p>
+<code>notify: restart iis service</code> &#8230;and here is your latter. Finally!  The <code>notify</code> statement is the invocation of a handler by
+name.  Quite the reveal, we know.   You already noticed that you&#8217;ve added a <code>notify</code> statement to the <code>win_iis_website</code>
+task, now you know why.
+</p>
+</li>
+</ul></div>
+</td>
+</tr></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_4_commit_and_review">Section 4: Commit and Review</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Your new, improved playbook is done! But remember we still need to commit the changes to source code control.</p></div>
+<div class="paragraph"><p>Click <code>File</code> &#8594; <code>Save All</code> to save the files you&#8217;ve written</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.3-vscode-secondhalf-site.yml.png" alt="1.3-vscode-secondhalf-site.yml.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Click on the Source Code icon, type in a commit message such as <em>Adding basic playbook</em>, and click the check box above.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.3-vscode-commit-site.yml.png" alt="1.3-vscode-commit-site.yml.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Sync to gitlab by clicking the arrows on the lower left blue bar.  When prompted, click <code>OK</code> to push and pull commits.</p></div>
+<div class="paragraph"><p>It should take 20-30 seconds to finish the commit.  The blue bar should stop rotating and indicate 0 problems&#8230;</p></div>
+<div class="paragraph"><p>Don&#8217;t run it just yet, we&#8217;ll do that in our next exercise.  For now, let&#8217;s take a second look to make sure everything
+looks the way you intended.  If not, now is the time for us to fix it up. The figure below shows line counts and spacing.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+- hosts<span style="color: #990000">:</span> windows
+  name<span style="color: #990000">:</span> This is a play within a playbook
+  vars<span style="color: #990000">:</span>
+    iis_sites<span style="color: #990000">:</span>
+      - name<span style="color: #990000">:</span> <span style="color: #FF0000">'Ansible Playbook Test'</span>
+        port<span style="color: #990000">:</span> <span style="color: #FF0000">'8080'</span>
+        path<span style="color: #990000">:</span> <span style="color: #FF0000">'C:</span><span style="color: #CC33CC">\s</span><span style="color: #FF0000">ites</span><span style="color: #CC33CC">\p</span><span style="color: #FF0000">laybooktest'</span>
+      - name<span style="color: #990000">:</span> <span style="color: #FF0000">'Ansible Playbook Test 2'</span>
+        port<span style="color: #990000">:</span> <span style="color: #FF0000">'8081'</span>
+        path<span style="color: #990000">:</span> <span style="color: #FF0000">'C:</span><span style="color: #CC33CC">\s</span><span style="color: #FF0000">ites</span><span style="color: #CC33CC">\p</span><span style="color: #FF0000">laybooktest2'</span>
+    iis_test_message<span style="color: #990000">:</span> <span style="color: #FF0000">"Hello World!  My test IIS Server"</span>
+
+  tasks<span style="color: #990000">:</span>
+    - name<span style="color: #990000">:</span> Install IIS
+      win_feature<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> Web-Server
+        state<span style="color: #990000">:</span> present
+
+    - name<span style="color: #990000">:</span> Create site directory structure
+      win_file<span style="color: #990000">:</span>
+        path<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.path }}"</span>
+        state<span style="color: #990000">:</span> directory
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+
+    - name<span style="color: #990000">:</span> Create IIS site
+      win_iis_website<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.name }}"</span>
+        state<span style="color: #990000">:</span> started
+        port<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.port }}"</span>
+        physical_path<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.path }}"</span>
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+      notify<span style="color: #990000">:</span> restart iis service
+
+    - name<span style="color: #990000">:</span> Open port <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> site on the firewall
+      win_firewall_rule<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> <span style="color: #FF0000">"iisport{{ item.port }}"</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">enable</span></span><span style="color: #990000">:</span> yes
+        state<span style="color: #990000">:</span> present
+        localport<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.port }}"</span>
+        action<span style="color: #990000">:</span> Allow
+        direction<span style="color: #990000">:</span> In
+        protocol<span style="color: #990000">:</span> Tcp
+        force<span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">true</span></span>
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+
+    - name<span style="color: #990000">:</span> Template simple web site to iis_site_path as index<span style="color: #990000">.</span>html
+      win_template<span style="color: #990000">:</span>
+        src<span style="color: #990000">:</span> <span style="color: #FF0000">'index.html.j2'</span>
+        dest<span style="color: #990000">:</span> <span style="color: #FF0000">'{{ item.path }}</span><span style="color: #CC33CC">\i</span><span style="color: #FF0000">ndex.html'</span>
+      with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+
+  handlers<span style="color: #990000">:</span>
+    - name<span style="color: #990000">:</span> restart iis service
+      win_service<span style="color: #990000">:</span>
+        name<span style="color: #990000">:</span> W3Svc
+        state<span style="color: #990000">:</span> restarted
+        start_mode<span style="color: #990000">:</span> auto</tt></pre></div></div>
+</div>
+</div>
+<h1 id="_exercise_1_4_running_the_apache_basic_playbook">Exercise 1.4 - Running the apache-basic-playbook</h1>
+<div class="paragraph"><p>Congratulations!  You just wrote a playbook that incorporates some key Ansible concepts that you use in
+most if not all of your future playbooks.  Before you get too excited though, we should probably make sure
+it actually runs.</p></div>
+<div class="paragraph"><p>So, lets do that now.</p></div>
+<div class="sect1">
+<h2 id="_section_1_running_your_new_iis_playbook">Section 1 - Running your new iis playbook</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_step_1_6">Step 1:</h3>
+<div class="paragraph"><p>Use putty to login to your s#tower host as student#</p></div>
+<div class="paragraph"><p>Pull the latest playbooks from source code and then execute the playbook.  Be certain to use your student number below.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cd <span style="color: #990000">~</span>/student<span style="font-style: italic"><span style="color: #9A1900">#-playbooks</span></span>
+git pull
+<span style="font-style: italic"><span style="color: #9A1900"># Or if you don't have the directory:</span></span>
+<span style="font-style: italic"><span style="color: #9A1900"># git clone https://gitlab.ansibleworkshop.com/student#/student#-playbooks.git</span></span>
+cd iis_basic_playbook</tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">Since you already have an inventory file, /etc/ansible/hosts, we will re-use it.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_5">Step 2:</h3>
+<div class="paragraph"><p>Run your playbook</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible-playbook site<span style="color: #990000">.</span>yml</tt></pre></div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_2_review">Section 2: Review</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>If successful, you should see standard output that looks very similar to the following.  If not, just let us
+know.  We&#8217;ll help get things fixed up.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.4-putty-playbook_site.yml.png" alt="1.4-putty-playbook_site.yml.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Your output may vary from above based on whether you removed IIS previously or not.</p></div>
+<div class="paragraph"><p>Once completed, on your workstation you can open firefox and test a connection to one of your servers (s#win1 or s#win2):</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="http://s#win1.ansibleworkshop.com:8080/">http://s#win1.ansibleworkshop.com:8080/</a>
+</p>
+</li>
+<li>
+<p>
+<a href="http://s#win1.ansibleworkshop.com:8081/">http://s#win1.ansibleworkshop.com:8081/</a>
+</p>
+</li>
+</ul></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.4-firefox-iis_site.png" alt="1.4-firefox-iis_site.png" width="1000" />
+</div>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">DNS is only available in your workstation environment, so you will not be able to connect remotely from your own machine</td>
+</tr></table>
+</div>
+</div>
+</div>
+<h1 id="_exercise_1_5_roles_making_your_playbooks_reusable">Exercise 1.5 - Roles: Making your playbooks reusable</h1>
+<div class="paragraph"><p>While it is possible to write a playbook in one file as we&#8217;ve done throughout this workshop, eventually you’ll want to reuse files and start to organize things.</p></div>
+<div class="paragraph"><p>Ansible Roles is the way we do this.  When you create a role, you deconstruct your playbook into parts and those parts sit in a directory structure.  "Wha??  You mean that seemingly useless <a href="http://docs.ansible.com/ansible/playbooks_best_practices.html">best practice</a> you mentioned in exercise 1.1?".  Yep, that one.</p></div>
+<div class="paragraph"><p>For this exercise, you are going to take the playbook you just wrote and refactor it into a role.</p></div>
+<div class="paragraph"><p>Let&#8217;s begin with seeing how your iis-basic-playbook will break down into a role&#8230;</p></div>
+<div class="sect1">
+<h2 id="_section_1_create_directory_structure_for_your_new_role">Section 1: Create directory structure for your new role</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_step_1_7">Step 1:</h3>
+<div class="paragraph"><p>In Visual Studio Code, navigate to explorer and your <code>student#-playbooks</code> project where you previously made iis_basic_playbook.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.5-vscode-beginning.png" alt="1.5-vscode-beginning.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Select the <strong>iis_basic_playbook</strong> folder.</p></div>
+<div class="paragraph"><p>Create a directory called <strong>roles</strong>  by right-clicking on iis_basic_playbook and selecting <em>New Folder</em></p></div>
+<div class="paragraph"><p>Now right-click on <strong>roles</strong> and create a new folder underneath called <code>iis_simple</code>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_6">Step 2:</h3>
+<div class="paragraph"><p>Within <em>iis_simple</em> create new folders as follows:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+defaults
+</p>
+</li>
+<li>
+<p>
+vars
+</p>
+</li>
+<li>
+<p>
+handlers
+</p>
+</li>
+<li>
+<p>
+tasks
+</p>
+</li>
+<li>
+<p>
+templates
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_3">Step 3:</h3>
+<div class="paragraph"><p>Within each of these new folders, right-click and create <em>New File</em>
+Create a file called <code>main.yml</code> in each of these folders.  Do not do this under templates as we will create individual template files.  This is your basic role structure and main.yml will be the default file that the role will use for each section.</p></div>
+<div class="paragraph"><p>The finished structure will look like this:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.5-vscode-role_structure.png" alt="1.5-vscode-role_structure.png" width="1000" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_2_breaking_your_code_site_yml_code_playbook_into_the_newly_created_code_iis_simple_code_role">Section 2: Breaking Your <code>site.yml</code> Playbook into the Newly Created <code>iis_simple</code> Role</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In this section, we will separate out the major parts of your playbook including <code>vars:</code>, <code>tasks:</code>, <code>template:</code>, and <code>handlers:</code>.</p></div>
+<div class="sect2">
+<h3 id="_step_1_8">Step 1:</h3>
+<div class="paragraph"><p>Make a backup copy of <code>site.yml</code>, then create a new <code>site.yml</code>.</p></div>
+<div class="paragraph"><p>Navigate to your <code>iis_basic_playbook</code> folder, right click on <code>site.yml</code>, click <code>rename</code>, and call it <code>site.yml.backup</code></p></div>
+<div class="paragraph"><p>Create a blank new file called <code>site.yml</code> in the same folder</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_7">Step 2:</h3>
+<div class="paragraph"><p>Update site.yml to look like to only call your role.  It should look like below:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+- hosts<span style="color: #990000">:</span> windows
+  name<span style="color: #990000">:</span> This is my role-based playbook
+
+  roles<span style="color: #990000">:</span>
+    - iis_simple</tt></pre></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.5-vscode-new_site.yml.png" alt="1.5-vscode-new_site.yml.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_4">Step 3:</h3>
+<div class="paragraph"><p>Add a default variable to your role.  Edit the <code>roles\iis_simple\defaults\main.yml</code> as follows:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+<span style="font-style: italic"><span style="color: #9A1900"># defaults file for iis_simple</span></span>
+iis_sites<span style="color: #990000">:</span>
+  - name<span style="color: #990000">:</span> <span style="color: #FF0000">'Ansible Playbook Test'</span>
+    port<span style="color: #990000">:</span> <span style="color: #FF0000">'8080'</span>
+    path<span style="color: #990000">:</span> <span style="color: #FF0000">'C:</span><span style="color: #CC33CC">\s</span><span style="color: #FF0000">ites</span><span style="color: #CC33CC">\p</span><span style="color: #FF0000">laybooktest'</span>
+  - name<span style="color: #990000">:</span> <span style="color: #FF0000">'Ansible Playbook Test 2'</span>
+    port<span style="color: #990000">:</span> <span style="color: #FF0000">'8081'</span>
+    path<span style="color: #990000">:</span> <span style="color: #FF0000">'C:</span><span style="color: #CC33CC">\s</span><span style="color: #FF0000">ites</span><span style="color: #CC33CC">\p</span><span style="color: #FF0000">laybooktest2'</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_2">Step 4:</h3>
+<div class="paragraph"><p>Add some role-specific variables to your role in <code>roles\iis_simple\vars\main.yml</code>.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+<span style="font-style: italic"><span style="color: #9A1900"># vars file for iis_simple</span></span>
+iis_test_message<span style="color: #990000">:</span> <span style="color: #FF0000">"Hello World!  My test IIS Server"</span></tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">
+<div class="paragraph"><p><strong>Hey, wait just a minute there buster&#8230; did you just have us put variables in two seperate places?</strong><br /></p></div>
+<div class="paragraph"><p>Yes&#8230; yes we did.  Variables can live in quite a few places.  Just to name a few:<br /></p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+vars directory
+</p>
+</li>
+<li>
+<p>
+defaults directory
+</p>
+</li>
+<li>
+<p>
+group_vars directory
+</p>
+</li>
+<li>
+<p>
+In the playbook under the <code>vars:</code> section
+</p>
+</li>
+<li>
+<p>
+In any file which can be specified on the command line using the <code>--extra_vars</code> option
+</p>
+</li>
+<li>
+<p>
+On a boat, in a moat, with a goat  <em>(disclaimer:  this is a complete lie)</em>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Bottom line, you need to read up on <a href="http://docs.ansible.com/ansible/latest/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable">variable precedence</a> to understand both where to define variables and which locations take precedence.  In this exercise, we are using role defaults to define a couple of variables and these are the most malleable.  After that, we defined some variables in <code>/vars</code>
+which have a higher precedence than defaults and can&#8217;t be overridden as a default variable.</p></div>
+</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_5_2">Step 5:</h3>
+<div class="paragraph"><p>Create your role handler in <code>roles\iis_simple\handlers\main.yml</code>.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+<span style="font-style: italic"><span style="color: #9A1900"># handlers file for iis_simple</span></span>
+- name<span style="color: #990000">:</span> restart iis service
+  win_service<span style="color: #990000">:</span>
+    name<span style="color: #990000">:</span> W3Svc
+    state<span style="color: #990000">:</span> restarted
+    start_mode<span style="color: #990000">:</span> auto</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_6_2">Step 6:</h3>
+<div class="paragraph"><p>Add tasks to your role in <code>roles\iis_simple\tasks\main.yml</code>.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>---
+<span style="font-style: italic"><span style="color: #9A1900"># tasks file for iis_simple</span></span>
+
+- name<span style="color: #990000">:</span> Install IIS
+  win_feature<span style="color: #990000">:</span>
+    name<span style="color: #990000">:</span> Web-Server
+    state<span style="color: #990000">:</span> present
+
+- name<span style="color: #990000">:</span> Create site directory structure
+  win_file<span style="color: #990000">:</span>
+    path<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.path }}"</span>
+    state<span style="color: #990000">:</span> directory
+  with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+
+- name<span style="color: #990000">:</span> Create IIS site
+  win_iis_website<span style="color: #990000">:</span>
+    name<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.name }}"</span>
+    state<span style="color: #990000">:</span> started
+    port<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.port }}"</span>
+    physical_path<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.path }}"</span>
+  with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+  notify<span style="color: #990000">:</span> restart iis service
+
+- name<span style="color: #990000">:</span> Open port <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> site on the firewall
+  win_firewall_rule<span style="color: #990000">:</span>
+    name<span style="color: #990000">:</span> <span style="color: #FF0000">"iisport{{ item.port }}"</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">enable</span></span><span style="color: #990000">:</span> yes
+    state<span style="color: #990000">:</span> present
+    localport<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ item.port }}"</span>
+    action<span style="color: #990000">:</span> Allow
+    direction<span style="color: #990000">:</span> In
+    protocol<span style="color: #990000">:</span> Tcp
+    force<span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">true</span></span>
+  with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span>
+
+- name<span style="color: #990000">:</span> Template simple web site to iis_site_path as index<span style="color: #990000">.</span>html
+  win_template<span style="color: #990000">:</span>
+    src<span style="color: #990000">:</span> <span style="color: #FF0000">'index.html.j2'</span>
+    dest<span style="color: #990000">:</span> <span style="color: #FF0000">'{{ item.path }}</span><span style="color: #CC33CC">\i</span><span style="color: #FF0000">ndex.html'</span>
+  with_items<span style="color: #990000">:</span> <span style="color: #FF0000">"{{ iis_sites }}"</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_7_2">Step 7:</h3>
+<div class="paragraph"><p>Add your index.html template.</p></div>
+<div class="paragraph"><p>Right-click on <code>roles\iis_simple\templates</code> and create a new file called <code>index.html.j2</code> with the following content:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="color: #990000">&lt;</span>html<span style="color: #990000">&gt;</span>
+<span style="color: #990000">&lt;</span>body<span style="color: #990000">&gt;</span>
+
+  <span style="color: #990000">&lt;</span>p <span style="color: #009900">align</span><span style="color: #990000">=</span>center<span style="color: #990000">&gt;&lt;</span>img <span style="color: #009900">src</span><span style="color: #990000">=</span><span style="color: #FF0000">'http://docs.ansible.com/images/logo.png'</span> <span style="color: #009900">align</span><span style="color: #990000">=&gt;</span>
+  <span style="color: #990000">&lt;</span>h1 <span style="color: #009900">align</span><span style="color: #990000">=</span>center<span style="color: #990000">&gt;</span>{{ ansible_hostname }} --- {{ iis_test_message }}
+
+<span style="color: #990000">&lt;</span>/body<span style="color: #990000">&gt;</span>
+<span style="color: #990000">&lt;</span>/html<span style="color: #990000">&gt;</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_8_commit">Step 8: Commit</h3>
+<div class="paragraph"><p>Click on File &#8594; Save All to ensure all your files are saved.</p></div>
+<div class="paragraph"><p>Click on the Source Code icon as shown below.</p></div>
+<div class="paragraph"><p>Type in a commit message like <code>Add iis_simple role</code> and click the check box above.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.5-vscode-commit_iis_simple_role.png" alt="1.5-vscode-commit_iis_simple_role.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Click on the <code>synchronize changes</code> button on the blue bar at the bottom left (and click <code>OK</code>).  This should again return with no problems.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_3_running_your_new_role_based_playbook">Section 3: Running your new role-based playbook</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now that you&#8217;ve successfully separated your original playbook into a role,
+let&#8217;s run it and see how it works.</p></div>
+<div class="sect2">
+<h3 id="_step_1_9">Step 1:</h3>
+<div class="paragraph"><p>Run the playbook on your tower host.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cd <span style="color: #990000">~</span>/student<span style="font-style: italic"><span style="color: #9A1900">#-playbooks</span></span>
+git pull
+cd iis_basic_playbook
+ansible-playbook site<span style="color: #990000">.</span>yml</tt></pre></div></div>
+<div class="paragraph"><p>If successful, your standard output should look similar to the figure below.  Note that most of the tasks return OK because we&#8217;ve previously configured the servers and services are already running.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/1.5-putty-playbook-execution.png" alt="1.5-putty-playbook-execution.png" width="1000" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_section_4_review">Section 4: Review</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>You should now have a completed playbook, <code>site.yml</code> with a single role called <code>iis_simple</code>.  The advantage of structuring your playbook into roles is that you can now add reusability to your playbooks as well as simplifying changes to variables, tasks, templates, etc.  <a href="https://galaxy.ansible.com">Ansible Galaxy</a> is a good repository of roles for use or reference.</p></div>
+</div>
+</div>
+<h1 id="_exercise_2_0_installing_ansible_tower">Exercise 2.0 - Installing Ansible Tower</h1>
+<div class="paragraph"><p>In this exercise, we are going to get Ansible Tower installed on your control node</p></div>
+<div class="sect1">
+<h2 id="_installing_ansible_tower">Installing Ansible Tower</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_step_1_10">Step 1:</h3>
+<div class="paragraph"><p>Use putty to SSH to your Tower node.  Change directories to /tmp</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cd /tmp</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_8">Step 2:</h3>
+<div class="paragraph"><p>Download the latest Ansible Tower package</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>curl -O http<span style="color: #990000">:</span>//releases<span style="color: #990000">.</span>ansible<span style="color: #990000">.</span>com/ansible-tower/setup/ansible-tower-setup-latest<span style="color: #990000">.</span>tar<span style="color: #990000">.</span>gz</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_5">Step 3:</h3>
+<div class="paragraph"><p>Untar and unzip the package file</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>tar xvfz /tmp/ansible-tower-setup-latest<span style="color: #990000">.</span>tar<span style="color: #990000">.</span>gz</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_3">Step 4:</h3>
+<div class="paragraph"><p>Change directories into the ansible tower package</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cd /tmp/ansible-tower-setup-<span style="color: #990000">*</span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_5_3">Step 5:</h3>
+<div class="paragraph"><p>Using an editor of your choice, open the inventory file</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>vi inventory</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_6_3">Step 6:</h3>
+<div class="paragraph"><p>Fill a few variables out in an inventory file: <code>admin_password, pg_password, rabbitmq_password</code></p></div>
+<div class="paragraph"><p>A few hints for <code>vi</code> if it&#8217;s not your thing.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Move around the file with your arrow keys
+</p>
+</li>
+<li>
+<p>
+<code>a</code> enters into <code>add</code> mode
+</p>
+</li>
+<li>
+<p>
+<code>esc</code> exits add mode
+</p>
+</li>
+<li>
+<p>
+<code>x</code> when not in add mode will <code>delete</code> a character
+</p>
+</li>
+<li>
+<p>
+<code>esc</code> followed by <code>:wq!</code> will save the file
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Just doing <code>:q!</code> will exit without saving
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>[tower]
+localhost ansible_connection=local
+
+[database]
+
+[all:vars]
+admin_password=<strong>'ansibleWS'</strong>
+
+pg_host=''
+pg_port=''
+
+pg_database='awx'
+pg_username='awx'
+pg_password=<strong>'ansibleWS'</strong>
+
+rabbitmq_port=5672
+rabbitmq_vhost=tower
+rabbitmq_username=tower
+rabbitmq_password=<strong>'ansibleWS'</strong>
+rabbitmq_cookie=cookiemonster
+
+# Needs to be true for fqdns and ip addresses
+rabbitmq_use_long_name=false</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_7_3">Step 7:</h3>
+<div class="paragraph"><p>Run the Ansible Tower setup script</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>sudo <span style="color: #990000">.</span>/setup<span style="color: #990000">.</span>sh</tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">Step 7 will take approx. 10-15 minutes to complete.  This uses ansible to install Tower.  This may be a good time to take a break.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_8">Step 8:</h3>
+<div class="paragraph"><p>As our git has a self signed cert, we have one more configuration step.  We need to enable tower to not verify SSL for repo syncs.  To do this, execute the following commands:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>sudo su -
+echo "AWX_TASK_ENV['GIT_SSL_NO_VERIFY'] = 'True'" &gt;&gt; /etc/tower/settings.py
+ansible-tower-service restart
+exit</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_end_result_2">End Result</h3>
+<div class="paragraph"><p>At this point, your Ansible Tower installation should be complete.
+You can access Tower from the browser on your s#workstation host at:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>https<span style="color: #990000">:</span>//s<span style="font-style: italic"><span style="color: #9A1900">#tower.ansibleworkshop.com</span></span></tt></pre></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">As we&#8217;re using a self-signed cert you will have to ignore the security warning and <code>Add</code> this site as trusted.</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ensuring_installation_success">Ensuring Installation Success</h3>
+<div class="paragraph"><p>You know you were successful if you are able to browse to your Ansible Tower&#8217;s url and get something like this</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/2.0-tower-logon-screen.png" alt="2.0-tower-logon-screen.png" width="1000" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_exercise_2_1_configuring_ansible_tower">Exercise 2.1 - Configuring Ansible Tower</h1>
+<div class="paragraph"><p>In this exercise, we are going to configure Tower so that we can run a playbook.</p></div>
+<div class="sect1">
+<h2 id="_configuring_ansible_tower">Configuring Ansible Tower</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There are a number of contructs in the Ansible Tower UI that enable multi-tenancy, notifications, scheduling, etc.
+However, we are only going to focus on a few of the key contructs that are required for this workshop today.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Credentials
+</p>
+</li>
+<li>
+<p>
+Projects
+</p>
+</li>
+<li>
+<p>
+Inventory
+</p>
+</li>
+<li>
+<p>
+Job Template
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_logging_into_tower_and_installing_the_license_key">Logging into Tower and Installing the License Key</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_step_1_11">Step 1:</h3>
+<div class="paragraph"><p>To log in, use the username <code>admin</code> and the password <code>ansibleWS</code>.  Note that typically AD/LDAP authentication would be setup.  However, that is beyond the scope of this workshop.</p></div>
+<div class="paragraph"><p>As soon as you login, you will prompted to request a license or browse for an existing license file</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/2.0-tower-license-prompt.png" alt="2.0-tower-license-prompt.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_9">Step 2:</h3>
+<div class="paragraph"><p>At the commandline in your Tower instance download the encrypted license file via the curl command.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>curl -O https<span style="color: #990000">:</span>//s<span style="color: #993399">3</span><span style="color: #990000">.</span>amazonaws<span style="color: #990000">.</span>com/ansible-tower-workshop-license/license</tt></pre></div></div>
+<div class="paragraph"><p>Then Decrypt the license file via Ansible Vault.
+<strong>The instructor should provide the password</strong></p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ansible-vault decrypt license
+
+<span style="color: #990000">...</span>
+
+Vault password<span style="color: #990000">:</span></tt></pre></div></div>
+<div class="paragraph"><p>Now use curl to POST the license to the Tower API endpoint. Please edit this command to the use the <code>workshop_prefix</code> for your workshop. This command exports your workshop prefix so that the next command can use that data in the curl command.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">export</span></span> <span style="color: #009900">WORKSHOP_PREFIX</span><span style="color: #990000">=</span><span style="color: #FF0000">" "</span></tt></pre></div></div>
+<div class="paragraph"><p>Now send the <code>license</code> to Tower via the API.  Make certain to use your student number in the URL.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>curl -k https<span style="color: #990000">:</span>//s<span style="font-style: italic"><span style="color: #9A1900">#tower.ansibleworkshop.com/api/v1/config/ \</span></span>
+     -H <span style="color: #FF0000">'Content-Type: application/json'</span> <span style="color: #990000">\</span>
+     -X POST <span style="color: #990000">\</span>
+     --data @license <span style="color: #990000">\</span>
+     --user admin<span style="color: #990000">:</span>ansibleWS</tt></pre></div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_machine_credential">Creating a Machine Credential</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Credentials are utilized by Tower for authentication when launching jobs against machines,
+synchronizing with inventory sources, and importing project content from a version control system.</p></div>
+<div class="paragraph"><p>There are many <a href="http://docs.ansible.com/ansible-tower/latest/html/userguide/credentials.html#credential-types">types of credentials</a> including machine, network, and various cloud providers.  In this
+workshop, we are using a <strong>machine</strong> credential.</p></div>
+<div class="sect2">
+<h3 id="_step_1_12">Step 1:</h3>
+<div class="paragraph"><p>Select the gear icon     <span class="image">
+<img src="images/at_gear.png" alt="Gear" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_10">Step 2:</h3>
+<div class="paragraph"><p>Select CREDENTIALS</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_6">Step 3:</h3>
+<div class="paragraph"><p>Click on ADD     <span class="image">
+<img src="images/at_add.png" alt="Add" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_4">Step 4:</h3>
+<div class="paragraph"><p>Complete the form using the following entries:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">NAME</p></td>
+<td align="left" valign="top"><p class="table">Git Credential</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">DESCRIPTION</p></td>
+<td align="left" valign="top"><p class="table">SCM credential for playbook sync</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">ORGANIZATION</p></td>
+<td align="left" valign="top"><p class="table">Default</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">TYPE</p></td>
+<td align="left" valign="top"><p class="table">Source Control</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">USERNAME</p></td>
+<td align="left" valign="top"><p class="table">student#</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">PASSWORD</p></td>
+<td align="left" valign="top"><p class="table">&lt;your AD account password - instructor provided&gt;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">Notice here we&#8217;ve made a change from our previous examples.  Previously we were using basic authentication with a local <code>Adminstrator</code> account.  Now we are switching to an AD user and Kerberos authentication.  We will also update our inventory variables to reflect Kerberos.</td>
+</tr></table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/2.1-tower-add-machine-credential.png" alt="2.1-tower-add-machine-credential.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_5_4">Step 5:</h3>
+<div class="paragraph"><p>Select SAVE     <span class="image">
+<img src="images/at_save.png" alt="Save" />
+</span><br /></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_an_scm_credential">Create an SCM Credential</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Our first credential was to access our Windows machines.  We need another to access our source code repository.  Repeat the process as above, but with the following details:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">NAME</p></td>
+<td align="left" valign="top"><p class="table">Ansible Workshop Credential</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">DESCRIPTION</p></td>
+<td align="left" valign="top"><p class="table">Machine credential for run job templates during workshop</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">ORGANIZATION</p></td>
+<td align="left" valign="top"><p class="table">Default</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">TYPE</p></td>
+<td align="left" valign="top"><p class="table">Machine</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">USERNAME</p></td>
+<td align="left" valign="top"><p class="table">student#</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">PASSWORD</p></td>
+<td align="left" valign="top"><p class="table">&lt;your AD account password - instructor provided&gt;</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>Make sure you select SAVE!</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/2.1-tower-add-scm-credential.png" alt="2.1-tower-add-scm-credential.png" width="1000" />
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_project">Creating a Project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>A Project is a logical collection of Ansible playbooks, represented in Tower.
+You can manage playbooks and playbook directories by either placing them manually
+under the Project Base Path on your Tower server, or by placing your playbooks into
+a source code management (SCM) system supported by Tower, including Git, Subversion, and Mercurial.</p></div>
+<div class="sect2">
+<h3 id="_step_1_13">Step 1:</h3>
+<div class="paragraph"><p>Click on PROJECTS at the upper left</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_11">Step 2:</h3>
+<div class="paragraph"><p>Select ADD     <span class="image">
+<img src="images/at_add.png" alt="Add" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_7">Step 3:</h3>
+<div class="paragraph"><p>Complete the form using the following entries (using your student number</p></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">NAME</p></td>
+<td align="left" valign="top"><p class="table">Ansible Workshop Project</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">DESCRIPTION</p></td>
+<td align="left" valign="top"><p class="table">workshop playbooks</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">ORGANIZATION</p></td>
+<td align="left" valign="top"><p class="table">Default</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">SCM TYPE</p></td>
+<td align="left" valign="top"><p class="table">Git</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">SCM URL</p></td>
+<td align="left" valign="top"><p class="table"><a href="https://gitlab.ansibleworkshop.com/student#/student#-playbooks.git">https://gitlab.ansibleworkshop.com/student#/student#-playbooks.git</a></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">SCM BRANCH</p></td>
+<td align="left" valign="top"><p class="table"></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">SCM CREDENTIAL</p></td>
+<td align="left" valign="top"><p class="table">Git Credential</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">SCM UPDATE OPTIONS</p></td>
+<td align="left" valign="top"><div><div class="ulist"><ul>
+<li>
+<p>
+[*] Clean
+</p>
+</li>
+<li>
+<p>
+[*] Delete on Update
+</p>
+</li>
+<li>
+<p>
+[*] Update on Launch
+</p>
+</li>
+</ul></div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/2.1-tower-create-project.png" alt="2.1-tower-create-project.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_5">Step 4:</h3>
+<div class="paragraph"><p>Select SAVE     <span class="image">
+<img src="images/at_save.png" alt="Save" />
+</span></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_inventory">Creating a Inventory</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>An inventory is a collection of hosts against which jobs may be launched.
+Inventories are divided into groups and these groups contain the actual hosts.
+Groups may be sourced manually, by entering host names into Tower, or from one
+of Ansible Tower’s supported cloud providers.</p></div>
+<div class="paragraph"><p>An Inventory can also be imported into Tower using the <code>tower-manage</code> command
+and this is how we are going to add an inventory for this workshop.</p></div>
+<div class="sect2">
+<h3 id="_step_1_14">Step 1:</h3>
+<div class="paragraph"><p>Click on INVENTORIES</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_12">Step 2:</h3>
+<div class="paragraph"><p>Select ADD and select Inventory    <span class="image">
+<img src="images/at_add.png" alt="Add" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_8">Step 3:</h3>
+<div class="paragraph"><p>Complete the form using the following entries</p></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">NAME</p></td>
+<td align="left" valign="top"><p class="table">Ansible Workshop Inventory</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">DESCRIPTION</p></td>
+<td align="left" valign="top"><p class="table">workshop hosts</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">ORGANIZATION</p></td>
+<td align="left" valign="top"><p class="table">Default</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/2.1-tower-create-inventory.png" alt="2.1-tower-create-inventory.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_6">Step 4:</h3>
+<div class="paragraph"><p>Select SAVE     <span class="image">
+<img src="images/at_save.png" alt="Save" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_5_5">Step 5:</h3>
+<div class="paragraph"><p>Using putty, login into your tower node if you closed the window previously</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>s<span style="font-style: italic"><span style="color: #9A1900">#tower.ansibleworkshop.com</span></span></tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_step_6_4">Step 6:</h3>
+<div class="paragraph"><p>Use the <code>tower-manage</code> command to import an existing inventory.  (<em>Be sure to replace &lt;username&gt; with your actual username</em>)</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>sudo tower-manage inventory_import --source=/home/ec2-user/hosts --inventory-name="Ansible Workshop Inventory"</code></pre>
+</div></div>
+<div class="paragraph"><p>You should see output similar to the following:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_tm_stdout.png" alt="at_tm_stdout.png" />
+</div>
+</div>
+<div class="paragraph"><p>Feel free to browse your inventory in Tower.  You should now notice that the inventory has been populated with Groups and that
+each of those groups contain hosts.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_inv_group.png" alt="at_inv_group.png" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_7_4">Step 7:</h3>
+<div class="paragraph"><p>TODO - Update the inventory in tower to use ansible_winrm_transport: kerberos
+TODO - Test with credssp as well?  Do I need to enable that with the powershell script with special options?</p></div>
+</div>
+<div class="sect2">
+<h3 id="_end_result_3">End Result</h3>
+<div class="paragraph"><p>At this point, we are doing with our basic configuration of Ansible Tower.  In exercise 2.2, we will be solely focused on creating and running a job template so you can see Tower in action.
+:icons: font
+:imagesdir: images</p></div>
+</div>
+</div>
+</div>
+<h1 id="_exercise_2_2_ad_hoc_commands_in_tower">Exercise 2.2 - Ad-hoc commands in Tower</h1>
+<div class="paragraph"><p>TODO - Walk thru ad-hoc commands in Tower similar to the adhoc commands in the original exercise.  Call out that the job execution is logged.</p></div>
+<div class="paragraph"><p>==</p></div>
+<div class="paragraph"><p>TODO</p></div>
+<div class="sect1">
+<h2 id="_end_result_4">End Result</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+<h1 id="_exercise_2_3_creating_and_running_a_job_template">Exercise 2.3 - Creating and Running a Job Template</h1>
+<div class="paragraph"><p>TODO - Update below for IIS/Windows &#8230;</p></div>
+<div class="paragraph"><p>A job template is a definition and set of parameters for running an Ansible job.
+Job templates are useful to execute the same job many times.</p></div>
+<div class="sect1">
+<h2 id="_creating_a_job_template">Creating a Job Template</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_step_1_15">Step 1:</h3>
+<div class="paragraph"><p>Select TEMPLATES</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_13">Step 2:</h3>
+<div class="paragraph"><p>Click on ADD <span class="image">
+<img src="images/at_add.png" alt="Add" />
+</span>, and select JOB TEMPLATE</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_9">Step 3:</h3>
+<div class="paragraph"><p>Complete the form using the following values</p></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">NAME</p></td>
+<td align="left" valign="top"><p class="table">IIS Basic Job Template</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">DESCRIPTION</p></td>
+<td align="left" valign="top"><p class="table">Template for the iis-basic-playbook</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">JOB TYPE</p></td>
+<td align="left" valign="top"><p class="table">Run</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">INVENTORY</p></td>
+<td align="left" valign="top"><p class="table">Ansible Workshop Inventory</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">PROJECT</p></td>
+<td align="left" valign="top"><p class="table">Ansible Workshop Project</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">PLAYBOOK</p></td>
+<td align="left" valign="top"><p class="table">iis-basic-playbook/site.yml</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">MACHINE CREDENTIAL</p></td>
+<td align="left" valign="top"><p class="table">Ansible Workshop Credential</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">LIMIT</p></td>
+<td align="left" valign="top"><p class="table">web</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">OPTIONS</p></td>
+<td align="left" valign="top"><div><div class="ulist"><ul>
+<li>
+<p>
+[*] Enable Privilege Escalation
+</p>
+</li>
+</ul></div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_jt_detail.png" alt="at_jt_detail.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_7">Step 4:</h3>
+<div class="paragraph"><p>Click SAVE <span class="image">
+<img src="images/at_save.png" alt="Save" />
+</span> and then select ADD SURVEY <span class="image">
+<img src="images/at_addsurvey.png" alt="Add" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_5_6">Step 5:</h3>
+<div class="paragraph"><p>Complete the survey form with following values</p></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">PROMPT</p></td>
+<td align="left" valign="top"><p class="table">Please enter a test message for your new website</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">DESCRIPTION</p></td>
+<td align="left" valign="top"><p class="table">Website test message prompt</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">ANSWER VARIABLE NAME</p></td>
+<td align="left" valign="top"><p class="table">iis_test_message</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">ANSWER TYPE</p></td>
+<td align="left" valign="top"><p class="table">Text</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">MINIMUM/MAXIMUM LENGTH</p></td>
+<td align="left" valign="top"><p class="table">Use the defaults</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">DEFAULT ANSWER</p></td>
+<td align="left" valign="top"><p class="table">Be creative, keep it clean, we&#8217;re all professionals here</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_survey_detail.png" alt="at_survey_detail.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_6_5">Step 6:</h3>
+<div class="paragraph"><p>Select ADD <span class="image">
+<img src="images/at_add.png" alt="Add" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_7_5">Step 7:</h3>
+<div class="paragraph"><p>Select SAVE <span class="image">
+<img src="images/at_save.png" alt="Add" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_8_2">Step 8:</h3>
+<div class="paragraph"><p>Back on the main Job Template page, select SAVE <span class="image">
+<img src="images/at_save.png" alt="Add" />
+</span> again.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_a_job_template">Running a Job Template</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now that you&#8217;ve sucessfully creating your Job Template, you are ready to launch it.
+Once you do, you will be redirected to a job screen which is refreshing in realtime
+showing you the status of the job.</p></div>
+<div class="sect2">
+<h3 id="_step_1_16">Step 1:</h3>
+<div class="paragraph"><p>Select TEMPLATES</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="http://people.redhat.com/~jduncan/images/icons/note.png" alt="Note" />
+</td>
+<td class="content">Alternatively, if you haven&#8217;t navigated away from the job templates creation page, you can scroll down to see all existing job templates</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_14">Step 2:</h3>
+<div class="paragraph"><p>Click on the rocketship icon <span class="image">
+<img src="images/at_launch_icon.png" alt="Add" />
+</span> for the <strong>IIS Basic Job Template</strong></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_10">Step 3:</h3>
+<div class="paragraph"><p>When prompted, enter your desired test message</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_survey_prompt.png" alt="at_survey_prompt.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_8">Step 4:</h3>
+<div class="paragraph"><p>Select LAUNCH <span class="image">
+<img src="images/at_survey_launch.png" alt="SurveyL" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_5_7">Step 5:</h3>
+<div class="paragraph"><p>Sit back, watch the magic happen</p></div>
+<div class="paragraph"><p>One of the first things you will notice is the summary section.  This gives you details about
+your job such as who launched it, what playbook it&#8217;s running, what the status is, i.e. pending, running, or complete.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_job_status.png" alt="at_job_status.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>Scrolling down, you will be able to see details on the play and each task in the playbook.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_job_tasklist.png" alt="at_job_tasklist.png" width="1000" />
+</div>
+</div>
+<div class="paragraph"><p>To the right, you can view standard output; the same way you could if you were running Ansible Core
+from the command line.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_job_stdout.png" alt="at_job_stdout.png" width="1000" />
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_6_6">Step 6:</h3>
+<div class="paragraph"><p>Once your job is sucessful, navigate to your new website</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>http<span style="color: #990000">:</span>//s<span style="font-style: italic"><span style="color: #9A1900">#win1.ansibleworkshop.com</span></span></tt></pre></div></div>
+<div class="paragraph"><p>If all went well, you should see something like this, but with your own custom message of course.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/at_web_tm.png" alt="at_web_tm.png" width="1000" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_end_result_5">End Result</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>At this point in the workshop, you&#8217;ve experienced the core functionality of Ansible Tower.  But wait&#8230; there&#8217;s more!
+You&#8217;ve just begun to explore the possibilities of Ansible Core and Tower.  Take a look at the resources page in this guide
+to explore some more features.</p></div>
+</div>
+</div>
+<h1 id="_exercise_3_0_using_ansible_for_windows_patching">Exercise 3.0 - Using Ansible for Windows Patching</h1>
+<div class="paragraph"><p>Walk through a patching process including things such as:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+WSUS selecting / approving patches - maybe have a WSUS server for the lab
+</p>
+</li>
+<li>
+<p>
+Downloading packages before patching window
+</p>
+</li>
+<li>
+<p>
+Scheduling patching - How to group nodes
+</p>
+</li>
+<li>
+<p>
+Notification on failure of patching
+</p>
+</li>
+<li>
+<p>
+Review/Confirmation of patches deployed
+</p>
+</li>
+</ul></div>
+<div class="sect1">
+<h2 id="_header_1">Header 1</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>TODO</p></div>
+<div class="sect2">
+<h3 id="_step_1_17">Step 1:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_15">Step 2:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_header_2">Header 2</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>TODO</p></div>
+<div class="sect2">
+<h3 id="_step_1_18">Step 1:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+<div class="sect2">
+<h3 id="_end_result_6">End Result</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+</div>
+<h1 id="_exercise_3_1_using_ansible_for_desired_state_config">Exercise 3.1 - Using Ansible for Desired State Config</h1>
+<div class="paragraph"><p>Review use cases around using new desired state config capabilities</p></div>
+<div class="sect1">
+<h2 id="_header_1_2">Header 1</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>TODO</p></div>
+<div class="sect2">
+<h3 id="_step_1_19">Step 1:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_16">Step 2:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_header_2_2">Header 2</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>TODO</p></div>
+<div class="sect2">
+<h3 id="_step_1_20">Step 1:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+<div class="sect2">
+<h3 id="_end_result_7">End Result</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+</div>
+<h1 id="_exercise_3_2_using_ansible_for_self_service_non_admin_users">Exercise 3.2 - Using Ansible for Self Service non-admin users</h1>
+<div class="paragraph"><p>Examples where user can restart services, servers, etc without being administrators&#8230;</p></div>
+<div class="sect1">
+<h2 id="_header_1_3">Header 1</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>TODO</p></div>
+<div class="sect2">
+<h3 id="_step_1_21">Step 1:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_17">Step 2:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_header_2_3">Header 2</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>TODO</p></div>
+<div class="sect2">
+<h3 id="_step_1_22">Step 1:</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+<div class="sect2">
+<h3 id="_end_result_8">End Result</h3>
+<div class="paragraph"><p>TODO</p></div>
+</div>
+</div>
+</div>
+<h1 id="_wrap_up">Wrap Up</h1>
+<div class="paragraph"><p>That wraps up what we have planned for today.  We hope you&#8217;ve learned something valuable<br />
+about Ansible and Ansible Tower that you can apply in your daily role.</p></div>
+<div class="sect1">
+<h2 id="_q_amp_a">Q&amp;A</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>What do you think? How can we help you understand Ansible Tower better?</p></div>
+<div class="paragraph"><p>Thank you for your time and participation!</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="images/redhat.svg" alt="redhat.svg" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-10-20 14:52:22 CDT
+</div>
+</div>
+</body>
+</html>

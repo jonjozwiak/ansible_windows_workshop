@@ -1,0 +1,12 @@
+# windows-updates.yml
+
+- hosts: windows
+  serial: 1
+
+  tasks:
+    - name: Check for missing updates.
+      win_updates: state=searched
+      register: update_count
+
+    - name: List missing updates
+      debug: var=update_count

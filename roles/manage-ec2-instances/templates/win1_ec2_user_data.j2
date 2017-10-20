@@ -1,0 +1,7 @@
+<powershell>
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1 -OutFile ConfigureRemotingForAnsible.ps1
+ConfigureRemotingForAnsible.ps1
+Rename-Computer -NewName {{ 's' + item + 'win1' }} 
+Restart-Computer
+</powershell>
+

@@ -1,0 +1,34 @@
+---
+# tasks file for windows-common
+- name: Add domain controller private IP as DNS server
+  win_dns_client:
+    adapter_names: "*"
+    ipv4_addresses: "{{ dns_servers }}"
+    #log_path: c:\dns_log.txt
+
+- name: Join Domain
+  win_domain_membership:
+    dns_domain_name: "{{ dns_domain_name }}"
+    domain_admin_user: "Admin@{{ dns_domain_name }}"
+    domain_admin_password: "{{ domain_admin_password }}"
+    #hostname: "wintestvm"
+    state: domain
+  register: windomain
+
+- debug: var=windomain
+
+- name: Reboot if needed
+  win_reboot:
+  when: windomain.reboot_required
+
+- name: Get current DNS search string
+  win_shell: Get-DnsClientGlobalSetting | Select SuffixSearchList 
+  changed_when: false
+  register: suffixsearchlist
+
+- debug: var=suffixsearchlist
+
+- name: Set DNS search string 
+  win_shell: Set-DnsClientGlobalSetting -SuffixSearchList {{ dns_domain_name }}, ec2.internal
+  when: "dns_domain_name not in suffixsearchlist.stdout"
+

@@ -1,0 +1,42 @@
+---
+# tasks file for windows-workstation
+
+### Req dot net 4.5.2 
+#- name: Install .Net framework 4.5.2 
+#  win_feature:
+#    name: DotNet-4-5-2
+#    state: present
+#    Win2016 has .NET 4.6... 
+
+- name: Install Visual Studio Code, Git, and Putty
+  win_chocolatey:
+    name: "{{ item }}"
+  with_items:
+    - visualstudiocode
+    - git
+    - putty.install
+    - firefox
+    #- putty
+    #- atom
+    #- notepadplusplus.install
+    #- sublimetext3
+
+- name: Add Putty Shortcut to administrator desktop
+  win_shortcut:
+    description: PuTTY
+    src: '%ProgramFiles%\PuTTY\putty.exe'
+    dest: '%Public%\Desktop\Putty.lnk'
+    directory: '%ProgramFiles%\PuTTY\'
+
+- name: Allow insecure git repos for self signed certificates
+  win_command: git config --global http.sslVerify "false"
+
+- name: Set git user 
+  win_command: git config --global user.name "{{ user_prefix }}{{ inventory_hostname | regex_replace('\\D') }}"
+
+- name: Set git user email
+  win_command: git config --global user.email "{{ user_prefix }}{{ inventory_hostname | regex_replace('\\D') }}@{{ dns_domain_name }}"
+
+- name: Set git to cache credentials
+  win_command: git config --global credential.helper wincred
+

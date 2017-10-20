@@ -1,0 +1,46 @@
+
+:icons: font
+:imagesdir: images
+
+
+
+= Exercise 3.0 - Using Ansible for Windows Patching
+Walk through a patching process including things such as:
+
+* WSUS selecting / approving patches - maybe have a WSUS server for the lab 
+* Downloading packages before patching window
+* Scheduling patching - How to group nodes
+* Notification on failure of patching
+* Review/Confirmation of patches deployed
+
+== Header 1
+
+TODO
+
+
+=== Step 1:
+
+TODO
+
+
+=== Step 2:
+
+TODO
+
+
+== Header 2
+
+TODO
+
+
+=== Step 1:
+
+TODO
+
+
+=== End Result
+
+TODO
+
+
+

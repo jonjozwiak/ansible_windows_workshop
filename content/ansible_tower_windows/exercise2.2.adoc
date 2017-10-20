@@ -1,0 +1,18 @@
+:icons: font
+:imagesdir: images
+
+
+= Exercise 2.2 - Ad-hoc commands in Tower
+
+TODO - Walk thru ad-hoc commands in Tower similar to the adhoc commands in the original exercise.  Call out that the job execution is logged.
+
+== 
+
+TODO
+
+== End Result
+
+TODO
+
+
+

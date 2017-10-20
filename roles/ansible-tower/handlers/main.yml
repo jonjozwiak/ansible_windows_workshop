@@ -1,0 +1,4 @@
+---
+# handlers file for ansible-tower
+- name: restart sssd
+  command: service sssd restart

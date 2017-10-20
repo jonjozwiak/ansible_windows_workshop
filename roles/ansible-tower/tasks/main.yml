@@ -1,0 +1,198 @@
+---
+# tasks file for ansible-tower
+- name: Enable extras repos
+  shell: yum-config-manager --enable rhui-REGION-rhel-server-extras
+
+- name: Add Ansible repo - transition to engine... 
+  yum_repository:
+    name: ansible
+    description: Ansible for Enterprise Linux 7
+    baseurl: http://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/
+    enabled: yes
+    gpgcheck: no
+
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - vim
+    - git
+    - sshpass
+    - ansible
+    - bind-utils
+
+- name: Check for pip
+  stat:
+    path: /usr/bin/pip
+  register: pip
+
+- name: Install pip
+  shell: easy_install pip
+  #when: ansible_devel
+  #when: ansible_devel and pip.stat.exists is not defined ## This doesn't work
+
+- name: Install devel branch
+  pip:
+    name: git+https://github.com/ansible/ansible.git@devel#egg=ansible
+  #shell: pip install git+https://github.com/ansible/ansible.git@devel
+  when: ansible_devel
+
+- name: Create /etc/ansible directory
+  file:
+    path: /etc/ansible
+    state: directory
+    mode: 0755
+
+- name: Create /etc/ansible/ansible.cfg
+  template:
+    src: ansible.cfg.j2
+    dest: /etc/ansible/ansible.cfg
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install dependencies for Kerberos auth
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-devel
+    - krb5-devel
+    - krb5-libs
+    - krb5-workstation
+    - python-kerberos
+    - gcc
+    # gcc needed for pywinrm[kerberos]
+
+- name: Install pywinrm for connecting to windows hosts
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - pywinrm>=0.2.2
+    - pywinrm[kerberos]
+    - pywinrm[credssp]
+ 
+# Set DNS name via network manager
+- name: set DNS resolution in ifcfg file 
+  blockinfile:
+    dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+    block: |
+      DNS1={{ dns_server }}
+      DNS2=8.8.8.8
+      DOMAIN="{{dns_domain_name}} ec2.internal"
+      PEERDNS=no
+  register: nm_resolv
+
+- name: restart NetworkManager service
+  service: 
+    name: NetworkManager 
+    state: restarted
+  when: nm_resolv.changed
+
+- name: Install dependencies for domain join 
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - oddjob
+    - oddjob-mkhomedir
+    - openldap-clients
+    - realmd
+    - sssd
+    - samba-common-tools 
+    - authconfig
+
+### Add something to check if it is already in a domain? 
+
+- name: Install pexpect using pip
+  pip:
+    name: pexpect
+
+- name: Check if machine is bound
+  shell: "realm list | grep sssd"
+  register: realmd_bound
+  changed_when: false
+  ignore_errors: true
+
+- name: Join the Domain 
+  expect: 
+    command: "realm join -U Admin@{{ dns_domain_name }} {{ dns_domain_name | upper }}"
+    responses:
+      Password for *: "{{ domain_admin_password }}"
+  register: realm_join_cmd_result
+  #no_log: true         # Uncomment this when in prod... (clear text)
+  #changed_when: realm_join_cmd_result.rc != 100
+  #failed_when: realm_join_cmd_result.rc not in [0, 100]
+  when: realmd_bound|failed
+
+- name: Add ad group to sudoers
+  lineinfile:
+    dest: /etc/sudoers
+    line: "%Ansible\\ Users	ALL=(ALL)	NOPASSWD: ALL"
+    insertafter: "^%wheel"
+  when: realmd_bound|failed
+
+- name: Get Kerberos Ticket
+  command: echo -n "{{ domain_admin_password }}" | kinit Admin@{{ dns_domain_name | upper }}
+  #command: kinit -k -t /etc/krb5.keytab {{ ansible_hostname | upper }}$\@{{ adauth_realm }}
+  args:
+    creates: /tmp/krb5cc_0
+
+- name: Check if authconfig ran before
+  command: "/bin/egrep '^auth.*sufficient.*pam_sss.so' /etc/pam.d/system-auth"
+  register: authconfig_run
+  failed_when: False
+  changed_when: False
+
+- name: Configure Server to use SSSD for auth
+  command: /usr/sbin/authconfig {{ authconfig_options | join(" ") }}
+  when: authconfig_run.rc != 0
+
+- name: Configure SSSD to use AD for authentication
+  template: 
+    src: sssd.conf.j2 
+    dest: /etc/sssd/sssd.conf
+    owner: root 
+    group: root
+    mode: 0600
+  notify: restart sssd
+
+- name: Ensure SSSD is started and enabled on boot
+  service: 
+    name: sssd 
+    state: started 
+    enabled: yes
+
+- name: Ensure oddjobd for mkhomedir is started and enabled on boot
+  service: 
+    name: oddjobd 
+    state: started 
+    enabled: yes
+
+- name: Copy student inventory to host
+  copy: 
+    src: ./{{ item }}
+    dest: /etc/ansible/hosts
+    owner: root
+    group: root
+    mode: 0644 
+    backup: yes
+  with_items: 
+    - "{{ user_prefix }}{{ inventory_hostname | regex_replace('\\D') }}-instances.txt"
+
+- name: Allow insecure git repos for self signed certificates
+  command: git config --global http.sslVerify "false"
+
+- name: Set git user
+  command: git config --global user.name "{{ user_prefix }}{{ inventory_hostname | regex_replace('\\D') }}"
+
+- name: Set git user email
+  command: git config --global user.email "{{ user_prefix }}{{ inventory_hostname | regex_replace('\\D') }}@{{ dns_domain_name }}"
+
+- name: Set git to cache credentials
+  command: git config --global credential.helper cache
+
+- name: Update git to credential timeout after 1 day
+  command: git config --global credential.helper 'cache --timeout=86400'
+

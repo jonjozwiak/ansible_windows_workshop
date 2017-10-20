@@ -1,0 +1,21 @@
+
+:badges:
+:icons: font
+:iconsdir: http://people.redhat.com/~jduncan/images/icons
+:imagesdir: images
+:source-highlighter: highlight.js
+:source-language: yaml
+
+:figure-caption!:
+
+= Wrap Up
+
+That wraps up what we have planned for today.  We hope you've learned something valuable +
+about Ansible and Ansible Tower that you can apply in your daily role.
+
+== Q&A
+What do you think? How can we help you understand Ansible Tower better?
+
+Thank you for your time and participation!
+
+image::redhat.svg[]
